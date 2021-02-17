@@ -106,10 +106,14 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
     // 	Vue.prototype.CustomBar = capsule.bottom + capsule.top - e.statusBarHeight;
     // } else {
     // 	Vue.prototype.CustomBar = e.statusBarHeight + 50;
-    // }
+    // }s
     //      }
     //  });
     console.log('App Launch');
+    var response = this.request({
+      url: 'http://localhost:8080/hello' });
+
+    console.log(response);
   },
   onShow: function onShow() {
     console.log('App Show');

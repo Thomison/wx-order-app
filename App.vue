@@ -15,10 +15,14 @@
 					// 	Vue.prototype.CustomBar = capsule.bottom + capsule.top - e.statusBarHeight;
 					// } else {
 					// 	Vue.prototype.CustomBar = e.statusBarHeight + 50;
-					// }
+					// }s
 		   //      }
 		   //  });
-		   console.log('App Launch')
+		   console.log('App Launch');
+		   const response = this.request({
+			   url:'http://localhost:8080/hello'
+		   });
+		   console.log(response);
 		},
 		onShow: function() {
 			console.log('App Show')

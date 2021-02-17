@@ -1,6 +1,5 @@
 {
   "pages": [
-    "pages/mine/login/index",
     "pages/mine/register/index",
     "pages/home/index",
     "pages/goods/index",
