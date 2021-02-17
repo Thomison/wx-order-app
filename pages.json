@@ -1,0 +1,82 @@
+{
+	// 配置页面
+	"pages": [ 
+		// 启动页
+		{
+			"path": "pages/mine/login/index",
+			"style": {
+				"navigationBarTitleText": "登录"
+			}
+		},
+		{
+			"path": "pages/mine/register/index",
+			"style": {
+				"navigationBarTitleText": "注册"
+			}
+		},
+		{
+			"path": "pages/home/index",
+			"style": {
+				"navigationBarTitleText": "首页"
+			}
+		},
+		{
+			"path": "pages/goods/index",
+			"style": {
+				"navigationBarTitleText": "商品"
+			}
+		},
+		{
+			"path": "pages/cart/index",
+			"style": {
+				"navigationBarTitleText": "购物车"
+			}
+		},
+		{
+			"path": "pages/mine/index",
+			"style": {
+				"navigationBarTitleText": "我的"
+			}
+		}
+	],
+	// 配置全局样式
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "uni-app",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8"
+	},
+	// 配置底部导航栏
+	"tabBar": {
+	    "color": "#7A7E83",
+	    "selectedColor": "#646464",
+	    "borderStyle": "black",
+	    "backgroundColor": "#ffffff",
+	    "list": [
+			{
+				"pagePath": "pages/home/index",
+				"iconPath": "static/icon/home.png",
+				"selectedIconPath": "static/icon/_home.png",
+				"text": "首页"
+			}, 
+			{
+				"pagePath": "pages/goods/index",
+				"iconPath": "static/icon/goods.png",
+				"selectedIconPath": "static/icon/_goods.png",
+				"text": "商品"
+			},
+			{
+				"pagePath": "pages/cart/index",
+				"iconPath": "static/icon/cart.png",
+				"selectedIconPath": "static/icon/_cart.png",
+				"text": "购物车"
+			},
+			{
+				"pagePath": "pages/mine/index",
+				"iconPath": "static/icon/mine.png",
+				"selectedIconPath": "static/icon/_mine.png",
+				"text": "我的"
+			}
+		]
+	}
+}
