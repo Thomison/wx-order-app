@@ -3,17 +3,23 @@
 	"pages": [ 
 		// 启动页
 		{
-			"path": "pages/mine/login/index",
-			"style": {
-				"navigationBarTitleText": "登录"
+			"path":"pages/index",
+			"style":{
+				"navigationBarTitleText":"登录授权"
 			}
 		},
-		{
-			"path": "pages/mine/register/index",
-			"style": {
-				"navigationBarTitleText": "注册"
-			}
-		},
+		// {
+		// 	"path": "pages/mine/login/index",
+		// 	"style": {
+		// 		"navigationBarTitleText": "登录"
+		// 	}
+		// },
+		// {
+		// 	"path": "pages/mine/register/index",
+		// 	"style": {
+		// 		"navigationBarTitleText": "注册"
+		// 	}
+		// },
 		{
 			"path": "pages/home/index",
 			"style": {

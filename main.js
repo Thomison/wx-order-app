@@ -4,6 +4,7 @@ import request from './common/request.js'
 
 Vue.config.productionTip = false
 Vue.prototype.request = request
+Vue.prototype.baseUrl = "http://localhost:8081"
 
 App.mpType = 'app'
 

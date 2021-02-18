@@ -19,10 +19,11 @@
 		   //      }
 		   //  });
 		   console.log('App Launch');
-		   const response = this.request({
-			   url:'http://localhost:8080/hello'
-		   });
-		   console.log(response);
+		   // 测试后端接口
+		   // const response = this.request({
+			  //  url:'http://localhost:8080/hello'
+		   // });
+		   // console.log(response);
 		},
 		onShow: function() {
 			console.log('App Show')

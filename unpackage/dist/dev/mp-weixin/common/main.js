@@ -13,6 +13,7 @@ var _request = _interopRequireDefault(__webpack_require__(/*! ./common/request.j
 
 _vue.default.config.productionTip = false;
 _vue.default.prototype.request = _request.default;
+_vue.default.prototype.baseUrl = "http://localhost:8081";
 
 _App.default.mpType = 'app';
 
@@ -110,10 +111,11 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
     //      }
     //  });
     console.log('App Launch');
-    var response = this.request({
-      url: 'http://localhost:8080/hello' });
-
-    console.log(response);
+    // 测试后端接口
+    // const response = this.request({
+    //  url:'http://localhost:8080/hello'
+    // });
+    // console.log(response);
   },
   onShow: function onShow() {
     console.log('App Show');
