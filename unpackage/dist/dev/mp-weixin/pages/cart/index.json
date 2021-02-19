@@ -1,4 +1,6 @@
 {
   "navigationBarTitleText": "购物车",
-  "usingComponents": {}
+  "usingComponents": {
+    "u-empty": "/node-modules/uview-ui/components/u-empty/u-empty"
+  }
 }

@@ -35,6 +35,8 @@
 </script>
 
 <style lang="scss">
+	// 引入uView基础样式
+	@import "uview-ui/index.scss";
 	@import "colorui/icon.css";
 	@import "colorui/main.css";
 </style>

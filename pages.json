@@ -3,24 +3,6 @@
 	"pages": [ 
 		// 启动页
 		{
-			"path":"pages/index",
-			"style":{
-				"navigationBarTitleText":"登录授权"
-			}
-		},
-		// {
-		// 	"path": "pages/mine/login/index",
-		// 	"style": {
-		// 		"navigationBarTitleText": "登录"
-		// 	}
-		// },
-		// {
-		// 	"path": "pages/mine/register/index",
-		// 	"style": {
-		// 		"navigationBarTitleText": "注册"
-		// 	}
-		// },
-		{
 			"path": "pages/home/index",
 			"style": {
 				"navigationBarTitleText": "首页"
@@ -33,15 +15,40 @@
 			}
 		},
 		{
-			"path": "pages/cart/index",
+			"path": "pages/goods/good-detail/index",
 			"style": {
-				"navigationBarTitleText": "购物车"
+				"navigationBarTitleText": "商品详情"
+			}
+		},
+		{
+			"path": "pages/coupon/index",
+			"style": {
+				"navigationBarTitleText": "优惠券"
 			}
 		},
 		{
 			"path": "pages/mine/index",
 			"style": {
-				"navigationBarTitleText": "我的"
+				"navigationBarTitleText": "个人信息"
+			}
+		},
+		{
+			"path": "pages/order/index",
+			"style": {
+				"navigationBarTitleText": "我的订单"
+			}
+		},
+
+		{
+			"path":"pages/index",
+			"style":{
+				"navigationBarTitleText":"登录授权"
+			}
+		},
+		{
+			"path": "pages/cart/index",
+			"style": {
+				"navigationBarTitleText": "购物车"
 			}
 		}
 	],
@@ -84,5 +91,16 @@
 				"text": "我的"
 			}
 		]
+	},
+	
+	
+	// 配置easycom组件模式: 自动按需导入所用到的ui组件 
+	"easycom": {
+		// 下载安装的方式需要前面的"@/"，npm安装的方式无需"@/"
+		// 下载安装方式
+		// "^u-(.*)": "@/uview-ui/components/u-$1/u-$1.vue"
+		// npm安装方式
+		"^u-(.*)": "uview-ui/components/u-$1/u-$1.vue"
 	}
+
 }

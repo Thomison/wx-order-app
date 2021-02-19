@@ -1,6 +1,6 @@
 <template>
 	<view class="cart_container">
-		这是购物车页面
+		<u-empty text="购物车为空" mode="car" margin-top="100"></u-empty>
 	</view>
 </template>
 
@@ -8,4 +8,9 @@
 </script>
 
 <style lang="scss">
+	.cart_container{
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
 </style>

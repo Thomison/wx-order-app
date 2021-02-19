@@ -1,1 +1,1 @@
-<view class="cart_container">这是购物车页面</view>
+<view class="cart_container"><u-empty vue-id="6a21c8ac-1" text="购物车为空" mode="car" margin-top="100" bind:__l="__l"></u-empty></view>
