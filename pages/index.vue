@@ -74,10 +74,16 @@ export default {
 									console.log(res);
 									if (res.data.code === 200) {
 										// 登陆成功
-										// 存储 用户信息 和 token 到全局
-										getApp().globalData.userInfo=userinfo_res.userInfo;
-										getApp().globalData.skey=res.data.data.skey;
-										getApp().globalData.hasLogin=true;
+										
+										// 存储用户信息
+										// getApp().globalData.userInfo=userinfo_res.userInfo;
+										uni.setStorageSync('userInfo', userinfo_res.userInfo);
+										// getApp().globalData.skey=res.data.data.skey;
+										uni.setStorageSync('openid', res.data.openid);
+										
+										// 存储与服务器的会话key
+										// getApp().globalData.hasLogin=true;
+										uni.setStorageSync('skey', res.data.skey);
 										uni.showToast({
 											title:"登陆成功"
 										});

@@ -1,34 +1,136 @@
 <template>
-	<view class="navigation">
-		<view class="left">
-			<view class="item">
-				<u-icon name="server-fill" :size="40" :color="$u.color['contentColor']"></u-icon>
-				<view class="text u-line-1">客服</view>
+	<view class="container">
+		<!-- 商品展示栏 -->
+		<view class="good_view">
+			<view class="good_image">
+				<image :src="data.goodImageUrl" mode="widthFix"></image>
 			</view>
-			<view class="item">
-				<u-icon name="home" :size="40" :color="$u.color['contentColor']"></u-icon>
-				<view class="text u-line-1">店铺</view>
-			</view>
-			<view class="item car">
-				<u-badge class="car-num" :count="9" type="error" :offset="[-3, -6]"></u-badge>
-				<u-icon name="shopping-cart" :size="40" :color="$u.color['contentColor']"></u-icon>
-				<view class="text u-line-1">购物车</view>
+			<view class="good_info">
+				<view class="good_name">
+					{{data.goodName}}
+				</view>
+				<view class="text-red text-xxl text-price">
+					{{data.goodNewPrice}}
+				</view>
 			</view>
 		</view>
-		<view class="right">
-			<view class="cart btn u-line-1">加入购物车</view>
-			<view class="buy btn u-line-1">立即购买</view>
+		<!-- 底部工具栏 -->
+		<view class="navigation">
+			<view class="left">
+				<view class="item">
+					<u-icon name="server-fill" :size="40" :color="$u.color['contentColor']"></u-icon>
+					<view class="text u-line-1">客服</view>
+				</view>
+				<view class="item">
+					<u-icon name="home" :size="40" :color="$u.color['contentColor']"></u-icon>
+					<view class="text u-line-1">店铺</view>
+				</view>
+				<view class="item car" @click="handleGoCart">
+					<u-badge class="car-num" :count="9" type="error" :offset="[-3, -6]"></u-badge>
+					<u-icon name="shopping-cart" :size="40" :color="$u.color['contentColor']"></u-icon>
+					<view class="text u-line-1">购物车</view>
+				</view>
+			</view>
+			<view class="right">
+				<view class="cart btn u-line-1" @click="handleAddCart">加入购物车</view>
+				<!-- <view class="buy btn u-line-1" @click="handleBuy">立即购买</view> -->
+			</view>
 		</view>
 	</view>
 </template>
 
 <script>
 export default {
-	
+	data() {
+		return {
+			// 当前商品数据
+			id:-1,
+			data:{},
+		}
+	},
+	methods:{
+		async getData() {
+			const response = await this.request({
+				url:this.baseUrl+'/good/'+this.id
+			});
+			// console.log(response);
+			this.data=response.data;
+			
+		},
+		// 处理 加入购物车 事件
+		handleAddCart() {
+			uni.showLoading({
+				title:'正在加入购物车',
+				mask:true,
+			});
+			// 从缓存获取购物车数组
+			let myCart = uni.getStorageSync('myCart');
+			// 设置当前商品在购物车中被选中且数量为1
+			let cartIndex = myCart.findIndex(v => v.goodId === this.data.goodId);
+			if (cartIndex === -1) {
+				this.data.checked = true;
+				this.data.num = 1;
+				myCart.push(this.data);
+			} else {
+				// if (myCart[cartIndex]) {
+					myCart[cartIndex].checked = true;
+					myCart[cartIndex].num++;
+				// }
+			}
+			// 将购物车数组刷新回缓存
+			uni.setStorageSync('myCart', myCart);
+			uni.showToast({
+				title:'加入购物车成功',
+				duration:2000
+			})
+			uni.hideLoading();
+		},
+		// 处理 立即购买 事件
+		handleBuy() {
+			// 前往支付页面
+		},
+		// 处理 前往购物车 事件
+		handleGoCart() {
+			uni.switchTab({
+				url:"../../cart/index"
+			});
+		}
+	},
+	onLoad(options) {
+		// console.log(options);
+		// 获取传入参数 - 商品id
+		this.id=options.id;
+		// 获取商品数据
+		this.getData();
+	}
 };
 </script>
 
 <style lang="scss" scoped>
+
+.good_view{
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	
+	.good_image{
+		padding: 20rpx;
+		border-bottom: 3rpx #ccc solid;
+		// width: 100vw;
+		// image{
+		// 	width: 100%;
+		// }
+	}
+	.good_info{
+		width: 100vw;
+		padding: 20rpx;
+		display: flex;
+		justify-content: space-between;
+		font-size: 36rpx;
+		font-weight: 500;
+	}
+}
+	
 .navigation {
 	width: 100%;
 	position: fixed;
@@ -40,7 +142,7 @@ export default {
 	padding: 20rpx 0;
 	.left {
 		display: flex;
-		font-size: 20rpx;
+		font-size: 25rpx;
 		.item {
 			margin: 0 30rpx;
 			&.car {
@@ -56,10 +158,11 @@ export default {
 	}
 	.right {
 		display: flex;
-		font-size: 28rpx;
+		font-size: 36rpx;
 		align-items: center;
+		justify-content: end;
 		.btn {
-			line-height: 66rpx;
+			line-height: 90rpx;
 			padding: 0 30rpx;
 			border-radius: 36rpx;
 			color: #ffffff;

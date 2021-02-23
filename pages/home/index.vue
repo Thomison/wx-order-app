@@ -25,7 +25,7 @@
 		</swiper>
 		<!-- 卡片 -->
 		<!-- 卡片A -->
-		<view class="cu-card case no-card" :class="isCard?'no-card':''">
+		<!-- <view class="cu-card case no-card" :class="isCard?'no-card':''">
 			<view class="cu-item shadow">
 				<view class="image">
 					<image src="https://ossweb-img.qq.com/images/lol/web201310/skin/big10006.jpg"
@@ -41,43 +41,9 @@
 					</view>
 				</view>
 			</view>
-		</view>
-		<!-- 卡片B -->
-		<view class="cu-card case" :class="isCard?'no-card':''">
-			<view class="cu-item shadow">
-				<view class="image">
-					<image src="https://ossweb-img.qq.com/images/lol/web201310/skin/big10006.jpg"
-					 mode="widthFix"></image>
-					<view class="cu-bar bg-shadeBottom"> <text class="text-cut">我已天理为凭，踏入这片荒芜，不再受凡人的枷锁遏制。我已天理为凭，踏入这片荒芜，不再受凡人的枷锁遏制。</text></view>
-				</view>
-				<view class="cu-list menu-avatar">
-					<view class="cu-item">
-						<view class="cu-avatar round lg" style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big10006.jpg);"></view>
-						<view class="content flex-sub">
-							<view class="text-grey">商家B</view>
-						</view>
-					</view>
-				</view>
-			</view>
-		</view>
-		<!-- 卡片C -->
-		<view class="cu-card case" :class="isCard?'no-card':''">
-			<view class="cu-item shadow">
-				<view class="image">
-					<image src="https://ossweb-img.qq.com/images/lol/web201310/skin/big10006.jpg"
-					 mode="widthFix"></image>
-					<view class="cu-bar bg-shadeBottom"> <text class="text-cut">我已天理为凭，踏入这片荒芜，不再受凡人的枷锁遏制。我已天理为凭，踏入这片荒芜，不再受凡人的枷锁遏制。</text></view>
-				</view>
-				<view class="cu-list menu-avatar">
-					<view class="cu-item">
-						<view class="cu-avatar round lg" style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big10006.jpg);"></view>
-						<view class="content flex-sub">
-							<view class="text-grey">商家C</view>
-						</view>
-					</view>
-				</view>
-			</view>
-		</view>
+		</view> -->
+		
+		
 	</view>
 </template>
 
@@ -89,31 +55,23 @@
 				swiperList: [{
 					id: 0,
 					type: 'image',
-					url: 'https://ossweb-img.qq.com/images/lol/web201310/skin/big84000.jpg'
+					url: 'https://wx-order-system-1304968786.cos.ap-chengdu.myqcloud.com/swiper/1'
 				}, {
 					id: 1,
 					type: 'image',
-					url: 'https://ossweb-img.qq.com/images/lol/web201310/skin/big37006.jpg',
+					url: 'https://wx-order-system-1304968786.cos.ap-chengdu.myqcloud.com/swiper/2',
 				}, {
 					id: 2,
 					type: 'image',
-					url: 'https://ossweb-img.qq.com/images/lol/web201310/skin/big39000.jpg'
+					url: 'https://wx-order-system-1304968786.cos.ap-chengdu.myqcloud.com/swiper/3'
 				}, {
 					id: 3,
 					type: 'image',
-					url: 'https://ossweb-img.qq.com/images/lol/web201310/skin/big10001.jpg'
+					url: 'https://wx-order-system-1304968786.cos.ap-chengdu.myqcloud.com/swiper/4'
 				}, {
 					id: 4,
 					type: 'image',
-					url: 'https://ossweb-img.qq.com/images/lol/web201310/skin/big25011.jpg'
-				}, {
-					id: 5,
-					type: 'image',
-					url: 'https://ossweb-img.qq.com/images/lol/web201310/skin/big21016.jpg'
-				}, {
-					id: 6,
-					type: 'image',
-					url: 'https://ossweb-img.qq.com/images/lol/web201310/skin/big99008.jpg'
+					url: 'https://wx-order-system-1304968786.cos.ap-chengdu.myqcloud.com/swiper/5'
 				}],
 				dotStyle: false,
 				towerStart: 0,
@@ -121,8 +79,8 @@
 			};
 		},
 		onLoad() {
-			this.TowerSwiper('swiperList');
-			// 初始化towerSwiper 传已有的数组名即可
+			// this.TowerSwiper('swiperList');
+			// // 初始化towerSwiper 传已有的数组名即可
 		},
 		methods: {
 			DotStyle(e) {
