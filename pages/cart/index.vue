@@ -1,12 +1,12 @@
 <template>
 	<view class="cart_container">
 		
-		<!--  -->
+		<!-- 购物车为空 -->
 		<view v-if="myCart.length === 0" class="cart_empty">
 			<u-empty text="购物车为空" mode="car" margin-top="100"></u-empty>
 		</view>
 		
-		<!-- 购物车内容 -->
+		<!-- 购物车不为空 -->
 		<view v-else class="cart_main">
 			
 			<!-- 商品列表 -->

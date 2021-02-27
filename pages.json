@@ -1,64 +1,70 @@
 {
 	// 配置页面
 	"pages": [ 
-		// 启动页
+		// 启动页 - 登录授权
 		{
 			"path":"pages/index",
 			"style":{
 				"navigationBarTitleText":"登录授权"
 			}
 		},
-		
+		// 首页
 		{
 			"path": "pages/home/index",
 			"style": {
 				"navigationBarTitleText": "首页"
 			}
 		},
-		
+		// 商店及商品列表
 		{
 			"path": "pages/goods/index",
 			"style": {
 				"navigationBarTitleText": "商品"
 			}
 		},
-		
+		// 购物车
 		{
 			"path": "pages/cart/index",
 			"style": {
 				"navigationBarTitleText": "购物车"
 			}
 		},
-		
+		// 个人信息
 		{
 			"path": "pages/mine/index",
 			"style": {
 				"navigationBarTitleText": "个人信息"
 			}
 		},
-		
+		// 商品详情
 		{
 			"path": "pages/goods/good-detail/index",
 			"style": {
 				"navigationBarTitleText": "商品详情"
 			}
 		},
-		
-		
+		// 支付页面
 		{
 			"path": "pages/pay/index",
 			"style": {
 				"navigationBarTitleText": "支付"
 			}
 		},
-		
+		// 优惠券领取页面
 		{
 			"path": "pages/coupon/index",
 			"style": {
 				"navigationBarTitleText": "优惠券"
 			}
 		},
-		
+		// 我的优惠券
+		{
+			"path": "pages/coupon/my/index",
+			"style": {
+				"navigationBarTitleText": "我的优惠券"
+			}
+		},
+		// 订单页面
 		{
 			"path": "pages/order/index",
 			"style": {

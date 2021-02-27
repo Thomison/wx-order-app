@@ -18,7 +18,7 @@
 				</navigator>
 			</view>
 			<view class="cu-item arrow" >
-				<navigator class="content" url="../coupon/index">
+				<navigator class="content" url="../coupon/my/index">
 					<text class="cuIcon-redpacket text-red"></text>
 					<text class="text-grey">我的优惠券</text>
 				</navigator>
