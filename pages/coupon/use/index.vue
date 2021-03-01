@@ -1,19 +1,19 @@
 <template>
 	
-	<!-- 我的优惠券页面 -->
+	<!-- 使用优惠券页面 -->
 	
 	<view class="container">
-		
+		<!-- 无可使用优惠券 -->
 		<view class="coupon_empty" v-if="myCouponList.length===0">
-			<u-empty text="优惠券空空如也" mode="coupon" margin-top="100">
+			<u-empty text="无可用优惠券" mode="coupon" margin-top="100">
 				<u-button slot="bottom" size="medium" @click="handleGoGetCoupon">
 					点击领取优惠券
 				</u-button>
 			</u-empty>
 		</view>
-		
+		<!-- 有可使用优惠券 -->
 		<view class="coupon_no_empty" v-else>
-			<view class="jingdong" 
+			<view class="jingdong"
 				v-for="(item, index) in myCouponList" 
 				:key="item.id">
 				<view class="left">
@@ -31,6 +31,7 @@
 						</view>
 						<view class="bottom">
 							<view class="date u-line-1">{{item.startTime}}-{{item.endTime}}</view>
+							<view class="immediate-use" @click="handleUseCoupon(item)">立即使用</view>
 						</view>
 					</view>
 					<view class="tips">
@@ -41,7 +42,6 @@
 				</view>
 			</view>
 		</view>
-		
 	</view>
 </template>
 
@@ -59,6 +59,9 @@
 		},
 		onShow() {
 			this.getData();
+			// 过滤只剩下订单金额超过最低消费金额的优惠券
+			let orderAmountTotal = uni.getStorageSync('orderAmountTotal')||0;
+			this.myCouponList = this.myCouponList.filter(v => v.couponMin<=orderAmountTotal);
 		},
 		methods:{
 			async getData() {
@@ -72,6 +75,17 @@
 					item.startTime = item.startTime.substring(0,10);
 					item.endTime = item.endTime.substring(0,10);
 				});
+			},
+			
+			// 处理 使用优惠券 事件
+			handleUseCoupon(item) {
+				// 添加优惠券信息到缓存
+				uni.setStorageSync('couponUserId', item.couponUserId);
+				uni.setStorageSync('couponDiscount', item.discount);
+				// 跳转到支付页面
+				uni.navigateTo({
+					url:'../../pay/index',
+				})
 			},
 			
 			// 处理 跳转到领取优惠券页面 事件

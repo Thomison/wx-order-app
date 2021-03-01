@@ -1,6 +1,12 @@
 {
 	// 配置页面
-	"pages": [ 
+	"pages": [
+		{
+			"path": "pages/home/index",
+			"style": {
+				"navigationBarTitleText": "首页"
+			}
+		},
 		// 启动页 - 登录授权
 		{
 			"path":"pages/index",
@@ -9,12 +15,12 @@
 			}
 		},
 		// 首页
-		{
-			"path": "pages/home/index",
-			"style": {
-				"navigationBarTitleText": "首页"
-			}
-		},
+		// {
+		// 	"path": "pages/home/index",
+		// 	"style": {
+		// 		"navigationBarTitleText": "首页"
+		// 	}
+		// },
 		// 商店及商品列表
 		{
 			"path": "pages/goods/index",
@@ -62,6 +68,13 @@
 			"path": "pages/coupon/my/index",
 			"style": {
 				"navigationBarTitleText": "我的优惠券"
+			}
+		},
+		// 使用优惠券
+		{
+			"path": "pages/coupon/use/index",
+			"style": {
+				"navigationBarTitleText": "优惠券"
 			}
 		},
 		// 订单页面

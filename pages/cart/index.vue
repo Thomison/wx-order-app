@@ -43,7 +43,7 @@
 				<!-- 全选 -->
 				<view class="all_chk_wrap">
 					<checkbox-group @change="handleAllItemChange">
-						<checkbox :checked="allChecked">全选</checkbox>
+						<checkbox :checked="allChecked"/>全选
 					</checkbox-group>
 				</view>
 				<!-- 总价 -->
@@ -129,7 +129,7 @@
 				this.totalNum = totalNum;
 				this.myCart = myCart;
 				// 刷新回缓存
-				wx.setStorageSync('myCart', myCart);
+				uni.setStorageSync('myCart', myCart);
 			},
 			/**
 			 * 处理用户点击结算的事件
@@ -139,15 +139,17 @@
 			    const totalNum = this.totalNum;
 			    // 判断是否选中商品
 			    if (totalNum===0) {
-			      wx.showToast({
+			      uni.showToast({
 			        title: '您还没有选购商品',
 			        icon: 'none',
 			        mask: true,
 			      })
 			      return; 
 			    }
+				// 将订单金额存入缓存
+				uni.setStorageSync('orderAmountTotal', totalPrice);
 			    // 跳转到支付页面
-			    wx.navigateTo({
+			    uni.navigateTo({
 			      url: '/pages/pay/index'
 			    });
 			},

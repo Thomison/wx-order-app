@@ -14,6 +14,17 @@
 				</view>
 			</view>
 		</view>
+		
+		<!-- 领取优惠券 -->
+		<view class="cu-list menu margin-top">
+			<view class="coupon cu-item arrow">
+				<navigator class="content" url="../../coupon/index">
+					<text class="cuIcon-redpacket text-red"></text>
+					<text class="text-grey">领取优惠券</text>
+				</navigator>
+			</view>
+		</view>
+		
 		<!-- 底部工具栏 -->
 		<view class="navigation">
 			<view class="left">
@@ -159,7 +170,7 @@ export default {
 	.right {
 		display: flex;
 		font-size: 36rpx;
-		align-items: center;
+		align-items: flex-end;
 		justify-content: end;
 		.btn {
 			line-height: 90rpx;

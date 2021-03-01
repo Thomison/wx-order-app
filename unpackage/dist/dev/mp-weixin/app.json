@@ -1,13 +1,14 @@
 {
   "pages": [
-    "pages/index",
     "pages/home/index",
+    "pages/index",
     "pages/goods/index",
     "pages/cart/index",
     "pages/mine/index",
     "pages/goods/good-detail/index",
     "pages/pay/index",
     "pages/coupon/index",
+    "pages/coupon/my/index",
     "pages/order/index"
   ],
   "subPackages": [],

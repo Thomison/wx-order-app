@@ -1,29 +1,39 @@
 <template>
+	
+	<!-- 优惠券领取界面 -->
+	
 	<view class="u-wrap">
-		
-		<view class="jingdong">
-			<view class="left">
-				<view class="sum">
-					￥
-					<text class="num">100</text>
-				</view>
-				<view class="type">满149元可用</view>
-			</view>
-			<view class="right">
-				<view class="top">
-					<view class="title">
-						<!-- <text class="tag">限品类东券</text> -->
-						<text>仅可购买个人护理部分商品</text>
+		<!-- 暂无可领取的优惠券 -->
+		<view class="coupon_empty" v-if="couponList.length===0">
+			<u-empty text="暂无可领取的优惠券" mode="coupon" margin-top="100"></u-empty>
+		</view>
+		<view class="coupon_no_empty" v-else>
+			<view class="jingdong"
+				v-for="(item, index) in couponList" 
+				:key="item.id"
+				v-if="item.total>=0">
+				<view class="left">
+					<view class="sum">
+						￥
+						<text class="num">{{item.discount}}</text>
 					</view>
-					<view class="bottom">
-						<view class="date u-line-1">2020.01.01-2020.01.31</view>
-						<view class="immediate-use">立即使用</view>
-					</view>
+					<view class="type">满{{item.couponMin}}元可用</view>
 				</view>
-				<view class="tips">
-					<view class="explain">
-						<u-icon name="zhuanfa" class="transpond" :size="24"></u-icon>
-						<text>可赠送</text>
+				<view class="right">
+					<view class="top">
+						<view class="title">
+							<text class="tag">{{goodsTypeMap[item.goodsType]}}</text>
+							<text>{{item.couponName}}</text>
+						</view>
+						<view class="bottom">
+							<view class="date u-line-1">领取后{{item.days}}天有效</view>
+							<view class="immediate-use" @click.once="handleGetCoupon(item.couponId)">立即领取</view>
+						</view>
+					</view>
+					<view class="tips">
+						<view class="explain">
+							<text>{{item.couponDesc}}</text>
+						</view>
 					</view>
 				</view>
 			</view>
@@ -34,7 +44,54 @@
 
 <script>
 export default {
-	
+	data() {
+		return {
+			couponList:[],
+			goodsTypeMap:{
+				'0':'全商品',
+				'1':'类目限制',
+				'2':'商品限制'
+			},
+		}
+	},
+	onShow() {
+		this.getData();
+	},
+	methods:{
+		async getData() {
+			const response = await this.request({
+				url: this.baseUrl + '/coupons',
+				method: 'get'
+			});
+			// console.log(response);
+			this.couponList = response.data;
+		},
+		
+		// 处理领取优惠券事件
+		async handleGetCoupon(couponId) {
+			// 获取用户openid 构造参数
+			let openid = uni.getStorageSync('openid')||'';
+			let param = {};
+			param.userOpenID = openid;
+			param.couponId = couponId;
+			
+			uni.showLoading({
+				title:正在领取中,
+				mask:true,
+			})
+			// 发送请求 领取优惠券
+			cosnt response = await this.request({
+				url: this.baseUrl + '/coupon/get',
+				method: 'post',
+				data: param
+			});
+			uni.hideLoading();
+			uni.showToast({
+				title:response.message;
+				icon:
+			});
+		}
+	}
 };
 </script>
 

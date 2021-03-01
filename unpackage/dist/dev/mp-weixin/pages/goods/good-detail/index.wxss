@@ -84,9 +84,9 @@
   display: -webkit-flex;
   display: flex;
   font-size: 36rpx;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-          align-items: center;
+  -webkit-box-align: end;
+  -webkit-align-items: flex-end;
+          align-items: flex-end;
   -webkit-box-pack: end;
   -webkit-justify-content: end;
           justify-content: end;
