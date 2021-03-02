@@ -59,9 +59,10 @@
 		},
 		onShow() {
 			this.getData();
-			// 过滤只剩下订单金额超过最低消费金额的优惠券
+			// 过滤只剩下 订单金额超过最低消费金额 并且 未使用的 的优惠券
 			let orderAmountTotal = uni.getStorageSync('orderAmountTotal')||0;
 			this.myCouponList = this.myCouponList.filter(v => v.couponMin<=orderAmountTotal);
+			this.myCouponList = this.myCouponList.filter(v => v.couponStatus===0);
 		},
 		methods:{
 			async getData() {
@@ -80,7 +81,7 @@
 			// 处理 使用优惠券 事件
 			handleUseCoupon(item) {
 				// 添加优惠券信息到缓存
-				uni.setStorageSync('couponUserId', item.couponUserId);
+				uni.setStorageSync('couponUserId', item.id);
 				uni.setStorageSync('couponDiscount', item.discount);
 				// 跳转到支付页面
 				uni.navigateTo({

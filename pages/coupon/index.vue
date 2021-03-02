@@ -27,7 +27,7 @@
 						</view>
 						<view class="bottom">
 							<view class="date u-line-1">领取后{{item.days}}天有效</view>
-							<view class="immediate-use" @click.once="handleGetCoupon(item.couponId)">立即领取</view>
+							<view class="immediate-use" @click.once="handleGetCoupon(item)">立即领取</view>
 						</view>
 					</view>
 					<view class="tips">
@@ -68,27 +68,28 @@ export default {
 		},
 		
 		// 处理领取优惠券事件
-		async handleGetCoupon(couponId) {
+		async handleGetCoupon(coupon) {
+			// console.log(e);
 			// 获取用户openid 构造参数
 			let openid = uni.getStorageSync('openid')||'';
 			let param = {};
 			param.userOpenID = openid;
-			param.couponId = couponId;
+			param.couponId = coupon.id;
 			
 			uni.showLoading({
-				title:正在领取中,
+				title:'正在领取中',
 				mask:true,
-			})
+			});
 			// 发送请求 领取优惠券
-			cosnt response = await this.request({
+			const response = await this.request({
 				url: this.baseUrl + '/coupon/get',
 				method: 'post',
 				data: param
 			});
 			uni.hideLoading();
 			uni.showToast({
-				title:response.message;
-				icon:
+				title:response.message,
+				icon:'none'
 			});
 		}
 	}

@@ -1,5 +1,6 @@
 <template>
 	<view class="mine_container">
+		
 		<!-- 用户信息 -->
 		<view class="avatar">
 			<view class="cu-avatar xl round" 
@@ -37,7 +38,7 @@
 					<text class="text-grey">我的余额</text>
 				</view>
 				<view class="action">
-					<text class="text-red text-xl text-price">100</text>
+					<text class="text-red text-xl text-price">{{data.money}}</text>
 				</view>
 			</view>
 			
@@ -50,15 +51,26 @@ export default {
 		data() {
 			return {
 				userInfo:{},
+				data:{},
 			}
 		},
 		methods: {
-			
+			async getData() {
+				const openid = uni.getStorageSync('openid')||'';
+				const res = await this.request({
+					url: this.baseUrl + '/user/' + openid,
+					method: 'get'
+				});
+				this.data = res.data;
+			}
 		},
 		onLoad() {
 			// 获取用户个人信息
 			this.userInfo = uni.getStorageSync('userInfo');
 			console.log(this.userInfo);
+		},
+		onShow() {
+			this.getData();
 		}
 	}
 </script>

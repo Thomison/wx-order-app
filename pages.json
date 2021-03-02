@@ -1,12 +1,6 @@
 {
 	// 配置页面
 	"pages": [
-		{
-			"path": "pages/home/index",
-			"style": {
-				"navigationBarTitleText": "首页"
-			}
-		},
 		// 启动页 - 登录授权
 		{
 			"path":"pages/index",
@@ -15,12 +9,12 @@
 			}
 		},
 		// 首页
-		// {
-		// 	"path": "pages/home/index",
-		// 	"style": {
-		// 		"navigationBarTitleText": "首页"
-		// 	}
-		// },
+		{
+			"path": "pages/home/index",
+			"style": {
+				"navigationBarTitleText": "首页"
+			}
+		},
 		// 商店及商品列表
 		{
 			"path": "pages/goods/index",

@@ -147,7 +147,7 @@
 			      return; 
 			    }
 				// 将订单金额存入缓存
-				uni.setStorageSync('orderAmountTotal', totalPrice);
+				uni.setStorageSync('orderAmountTotal', this.totalPrice);
 			    // 跳转到支付页面
 			    uni.navigateTo({
 			      url: '/pages/pay/index'

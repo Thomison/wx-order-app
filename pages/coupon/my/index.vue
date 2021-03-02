@@ -59,6 +59,7 @@
 		},
 		onShow() {
 			this.getData();
+			this.myCouponList = this.myCouponList.filter(v => v.couponStatus===0);
 		},
 		methods:{
 			async getData() {

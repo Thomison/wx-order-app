@@ -33,19 +33,19 @@
 		<view class="order_info cu-list menu margin-top">
 			<!-- 订单金额 -->
 			<view class="order_amount_total cu-item">
-				<view class="content" style="text-align: right;">
-					<text class="text-grey text-price">订单总金额：{{orderAmountTotal}}</text>
+				<view class="content text-grey" style="text-align: right;">
+					订单总金额: <text class="text-price text-red">{{orderAmountTotal}}</text>
 				</view>
 			</view>
 			<!-- 优惠金额 -->
 			<view class="discount_amount cu-item">
-				<view class="content" style="text-align: right;">
-					<text class="text-grey text-price">优惠金额：- {{discountAmount}}</text>
+				<view class="content text-grey" style="text-align: right;">
+					优惠金额:<text class="text-price text-red">-{{discountAmount}}</text>
 				</view>
 			</view>
 			<!-- 优惠券 -->
 			<view class="coupon cu-item arrow">
-				<navigator class="content" :url="'../coupon/use/index?total='+orderAmountTotal" style="text-align: right;">
+				<navigator class="content" url="../coupon/use/index" style="text-align: right;">
 					<text class="cuIcon-redpacket text-red"></text>
 					<text class="text-grey">使用优惠券</text>
 				</navigator>
@@ -158,10 +158,13 @@
 			this.myGoods.forEach(v => {
 				this.orderAmountTotal += v.num * v.goodNewPrice;
 				this.totalNum += v.num;
+				v.goodPrice = v.goodNewPrice;
+				v.goodNum = v.num;
 			})
 			// 从缓存获取优惠券信息
 			this.couponUserId = uni.getStorageSync('couponUserId')||0;
 			this.discountAmount = uni.getStorageSync('couponDiscount')||0;
+			this.payAmountTotal = this.orderAmountTotal - this.discountAmount;
 		}
 	}
 </script>

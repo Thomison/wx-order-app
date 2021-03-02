@@ -75,15 +75,15 @@ export default {
 									if (res.data.code === 200) {
 										// 登陆成功
 										
-										// 存储用户信息
+										// 存储用户个人信息
 										// getApp().globalData.userInfo=userinfo_res.userInfo;
 										uni.setStorageSync('userInfo', userinfo_res.userInfo);
 										// getApp().globalData.skey=res.data.data.skey;
-										uni.setStorageSync('openid', res.data.openid);
-										
+										// 存储用户openid
+										uni.setStorageSync('openid', res.data.data.openid);
 										// 存储与服务器的会话key
 										// getApp().globalData.hasLogin=true;
-										uni.setStorageSync('skey', res.data.skey);
+										uni.setStorageSync('skey', res.data.data.skey);
 										uni.showToast({
 											title:"登陆成功"
 										});
