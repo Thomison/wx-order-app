@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "商品",
+  "usingComponents": {
+    "u-subsection": "/node-modules/uview-ui/components/u-subsection/u-subsection"
+  }
+}

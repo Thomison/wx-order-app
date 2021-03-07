@@ -15,7 +15,7 @@ var _uviewUi = _interopRequireDefault(__webpack_require__(/*! uview-ui */ 12));f
 _vue.default.use(_uviewUi.default);
 _vue.default.config.productionTip = false;
 _vue.default.prototype.request = _request.default;
-_vue.default.prototype.baseUrl = "http://localhost:8081";
+_vue.default.prototype.baseUrl = "http://82.156.28.45:8081";
 
 _App.default.mpType = 'app';
 

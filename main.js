@@ -6,7 +6,7 @@ import uView from 'uview-ui';
 Vue.use(uView);
 Vue.config.productionTip = false
 Vue.prototype.request = request
-Vue.prototype.baseUrl = "http://localhost:8081"
+Vue.prototype.baseUrl = "http://82.156.28.45:8081"
 
 App.mpType = 'app'
 
