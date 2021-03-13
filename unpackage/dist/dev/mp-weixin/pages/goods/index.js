@@ -239,6 +239,7 @@ var _default = {
     // goodsMain
   },
   methods: {
+
     // 获取数据 存在缓存中
     getList: function getList() {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var response, response2, i, j, response3;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:_context.next = 2;return (
 
@@ -271,6 +272,7 @@ var _default = {
                 // 存储在缓存
                 uni.setStorageSync('dataList', _this.list);case 28:case "end":return _context.stop();}}}, _callee);}))();
     },
+
     // 切换选项卡
     sectionChange: function sectionChange(index) {
       this.curNow = index;
@@ -306,6 +308,10 @@ var _default = {
       });
     } },
 
+
+  /**
+          * 监听页面加载
+          */
   onLoad: function onLoad() {
     // 从全局缓存中获取数据
     // this.list = uni.getStorageSync('dataList');
@@ -314,7 +320,16 @@ var _default = {
     // await this.getList();
     // }
     this.getList();
-  } };exports.default = _default;
+    console.log('onLoad');
+  }
+
+  // /**
+  //  * 监听页面显示
+  //  */
+  // onShow() {
+  // 	console.log('onShow');
+  // }
+};exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),

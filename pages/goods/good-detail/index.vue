@@ -57,6 +57,11 @@ export default {
 			// 当前商品数据
 			id:-1,
 			data:{},
+			recordParam: {
+				userOpenId:'',
+				goodId:-1,
+			},
+			recordId:-1,
 		}
 	},
 	methods:{
@@ -66,8 +71,28 @@ export default {
 			});
 			// console.log(response);
 			this.data=response.data;
-			
 		},
+		
+		async createRecord() {
+			this.recordParam.userOpenId = uni.getStorageSync('openid');
+			this.recordParam.goodId = this.id;
+			const response = await this.request({
+				url:this.baseUrl+'/record',
+				method: 'post',
+				data: JSON.stringify(this.recordParam)
+			});
+			console.log(response);
+			this.recordId = response.data.id;
+		},
+		
+		async updateRecord() {
+			const response = await this.request({
+				url:this.baseUrl+'/record/' + this.recordId,
+				method: 'put',
+			});
+			console.log(response);
+		},
+		
 		// 处理 加入购物车 事件
 		handleAddCart() {
 			uni.showLoading({
@@ -96,10 +121,7 @@ export default {
 			})
 			uni.hideLoading();
 		},
-		// 处理 立即购买 事件
-		handleBuy() {
-			// 前往支付页面
-		},
+
 		// 处理 前往购物车 事件
 		handleGoCart() {
 			uni.switchTab({
@@ -107,12 +129,35 @@ export default {
 			});
 		}
 	},
+	
+	/**
+	 * 页面加载
+	 */
 	onLoad(options) {
 		// console.log(options);
 		// 获取传入参数 - 商品id
 		this.id=options.id;
 		// 获取商品数据
 		this.getData();
+		// 创建访问记录
+		this.createRecord();
+		console.log('onLoad');
+	},
+	
+	/**
+	 * 页面显示
+	 */
+	onShow() {
+		console.log('onShow');
+	},
+	
+	/**
+	 * 离开页面（页面销毁时触发）
+	 */
+	onUnload() {
+		// 更新访问记录
+		this.updateRecord();
+		console.log('onUnload');
 	}
 };
 </script>

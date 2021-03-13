@@ -84,6 +84,7 @@
 			// goodsMain
 		},
 		methods:{
+			
 			// 获取数据 存在缓存中
 			async getList() {
 				// 获取店铺数据
@@ -116,6 +117,7 @@
 				// 存储在缓存
 				uni.setStorageSync('dataList', this.list);
 			},
+			
 			// 切换选项卡
 			sectionChange(index) {
 				this.curNow = index;
@@ -151,6 +153,10 @@
 				})
 			}
 		},
+		
+		/**
+		 * 监听页面加载
+		 */
 		onLoad() {
 			// 从全局缓存中获取数据
 			// this.list = uni.getStorageSync('dataList');
@@ -159,7 +165,15 @@
 				// await this.getList();
 			// }
 			this.getList();
-		}
+			console.log('onLoad');
+		},
+		
+		// /**
+		//  * 监听页面显示
+		//  */
+		// onShow() {
+		// 	console.log('onShow');
+		// }
 	}
 </script>
 

@@ -214,7 +214,12 @@ var _default =
     return {
       // 当前商品数据
       id: -1,
-      data: {} };
+      data: {},
+      recordParam: {
+        userOpenId: '',
+        goodId: -1 },
+
+      recordId: -1 };
 
   },
   methods: {
@@ -224,10 +229,30 @@ var _default =
 
                 // console.log(response);
                 _this.data = response.data;case 4:case "end":return _context.stop();}}}, _callee);}))();
-
     },
+
+    createRecord: function createRecord() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var response;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:
+                _this2.recordParam.userOpenId = uni.getStorageSync('openid');
+                _this2.recordParam.goodId = _this2.id;_context2.next = 4;return (
+                  _this2.request({
+                    url: _this2.baseUrl + '/record',
+                    method: 'post',
+                    data: JSON.stringify(_this2.recordParam) }));case 4:response = _context2.sent;
+
+                console.log(response);
+                _this2.recordId = response.data.id;case 7:case "end":return _context2.stop();}}}, _callee2);}))();
+    },
+
+    updateRecord: function updateRecord() {var _this3 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3() {var response;return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:_context3.next = 2;return (
+                  _this3.request({
+                    url: _this3.baseUrl + '/record/' + _this3.recordId,
+                    method: 'put' }));case 2:response = _context3.sent;
+
+                console.log(response);case 4:case "end":return _context3.stop();}}}, _callee3);}))();
+    },
+
     // 处理 加入购物车 事件
-    handleAddCart: function handleAddCart() {var _this2 = this;
+    handleAddCart: function handleAddCart() {var _this4 = this;
       uni.showLoading({
         title: '正在加入购物车',
         mask: true });
@@ -235,7 +260,7 @@ var _default =
       // 从缓存获取购物车数组
       var myCart = uni.getStorageSync('myCart');
       // 设置当前商品在购物车中被选中且数量为1
-      var cartIndex = myCart.findIndex(function (v) {return v.goodId === _this2.data.goodId;});
+      var cartIndex = myCart.findIndex(function (v) {return v.goodId === _this4.data.goodId;});
       if (cartIndex === -1) {
         this.data.checked = true;
         this.data.num = 1;
@@ -254,10 +279,7 @@ var _default =
 
       uni.hideLoading();
     },
-    // 处理 立即购买 事件
-    handleBuy: function handleBuy() {
-      // 前往支付页面
-    },
+
     // 处理 前往购物车 事件
     handleGoCart: function handleGoCart() {
       uni.switchTab({
@@ -265,12 +287,35 @@ var _default =
 
     } },
 
+
+  /**
+          * 页面加载
+          */
   onLoad: function onLoad(options) {
     // console.log(options);
     // 获取传入参数 - 商品id
     this.id = options.id;
     // 获取商品数据
     this.getData();
+    // 创建访问记录
+    this.createRecord();
+    console.log('onLoad');
+  },
+
+  /**
+      * 页面显示
+      */
+  onShow: function onShow() {
+    console.log('onShow');
+  },
+
+  /**
+      * 离开页面（页面销毁时触发）
+      */
+  onUnload: function onUnload() {
+    // 更新访问记录
+    this.updateRecord();
+    console.log('onUnload');
   } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
