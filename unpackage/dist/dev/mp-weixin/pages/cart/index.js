@@ -301,6 +301,20 @@ var _default =
 
         return;
       }
+      // 过滤用户购物车中所选商品
+      var myCartChecked = this.myCart.filter(function (x) {return x.checked;});
+      // 判断用户所选商品是否来自同一家商店
+      var storeId = myCartChecked[0].storeId;
+      for (var i = 0; i < myCartChecked.length; i++) {
+        if (myCartChecked[i].storeId != storeId) {
+          uni.showToast({
+            title: '您必须选中来自同一家店铺的商品',
+            icon: 'none',
+            mask: true });
+
+          return;
+        }
+      }
       // 将订单金额存入缓存
       uni.setStorageSync('orderAmountTotal', this.totalPrice);
       // 跳转到支付页面

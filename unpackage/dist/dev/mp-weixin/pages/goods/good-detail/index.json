@@ -1,7 +1,8 @@
 {
   "navigationBarTitleText": "商品详情",
   "usingComponents": {
-    "u-icon": "/node-modules/uview-ui/components/u-icon/u-icon",
-    "u-badge": "/node-modules/uview-ui/components/u-badge/u-badge"
+    "u-modal": "/node-modules/uview-ui/components/u-modal/u-modal",
+    "u-count-down": "/node-modules/uview-ui/components/u-count-down/u-count-down",
+    "u-icon": "/node-modules/uview-ui/components/u-icon/u-icon"
   }
 }

@@ -52,17 +52,18 @@
 //
 //
 //
+//
 var _default =
 {
   data: function data() {
     return {
-      couponList: [],
-      goodsTypeMap: {
-        '0': '全商品',
-        '1': '类目限制',
-        '2': '商品限制' } };
-
-
+      couponList: []
+      // goodsTypeMap:{
+      // 	'0':'全商品',
+      // 	'1':'类目限制',
+      // 	'2':'商品限制'
+      // },
+    };
   },
   onShow: function onShow() {
     this.getData();

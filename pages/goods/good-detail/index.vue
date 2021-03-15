@@ -1,5 +1,15 @@
 <template>
 	<view class="container">
+		
+		<u-modal v-model="show" @confirm="confirmModal" @cancel="cancelModal" show-confirm-button show-cancel-button>
+			<view class="slot-content">
+				<rich-text :nodes="content"></rich-text>
+				<!-- <view class="count-down">
+					剩余时间：<u-count-down :timestamp="timestamp" color="red"></u-count-down>
+				</view> -->
+			</view>
+		</u-modal>
+		
 		<!-- 商品展示栏 -->
 		<view class="good_view">
 			<view class="good_image">
@@ -37,7 +47,7 @@
 					<view class="text u-line-1">店铺</view>
 				</view>
 				<view class="item car" @click="handleGoCart">
-					<u-badge class="car-num" :count="9" type="error" :offset="[-3, -6]"></u-badge>
+					<!-- <u-badge class="car-num" :count="9" type="error" :offset="[-3, -6]"></u-badge> -->
 					<u-icon name="shopping-cart" :size="40" :color="$u.color['contentColor']"></u-icon>
 					<view class="text u-line-1">购物车</view>
 				</view>
@@ -62,15 +72,44 @@ export default {
 				goodId:-1,
 			},
 			recordId:-1,
+			show:false,
+			content:`
+					恭喜您被优惠券砸中了<br>
+					请选择是否领取
+				`,
+			timestamp:2,
+			time:'',
 		}
 	},
 	methods:{
+		confirmModal() {
+			// 前往优惠券领取界面
+			uni.navigateTo({
+				url:'../../coupon/index'
+			});
+		},
+		cancelModal() {
+			this.show = false;
+		},
 		async getData() {
 			const response = await this.request({
 				url:this.baseUrl+'/good/'+this.id
 			});
 			// console.log(response);
-			this.data=response.data;
+			this.data = response.data;
+			
+			// 店铺A随机发放优惠券
+			let num = Math.ceil(Math.random()*10); // 生成随1~10的随机整数
+			if (this.data.storeId === 1 && num >= 5) {
+				this.show = true;
+				
+				// uni.setTimeout(function(){
+				// 	this.show = false;
+				// }, this.timestamp);
+			}
+			// setTimeout(function() {
+			// 	this.show = false
+			// }, this.timestamp);
 		},
 		
 		async createRecord() {
@@ -141,8 +180,15 @@ export default {
 		this.getData();
 		// 创建访问记录
 		this.createRecord();
+
 		console.log('onLoad');
 	},
+	
+	// onReady() {
+	// 	setTimeout(function() {
+	// 		this.show = false
+	// 	}, this.timestamp);
+	// },
 	
 	/**
 	 * 页面显示
@@ -157,6 +203,8 @@ export default {
 	onUnload() {
 		// 更新访问记录
 		this.updateRecord();
+		// 消除定时器
+		// clearTimeout(this.time);
 		console.log('onUnload');
 	}
 };
@@ -231,5 +279,20 @@ export default {
 			background-color: #ff7900;
 		}
 	}
+}
+.slot-content{
+	// display: flex;
+	// align-items: center;
+	// justify-content: center;
+	text-align: center;
+	padding: 30rpx;
+	font-size: 30rpx;
+	font-weight: 400;
+	// rich-text{
+	// 	width: 100%;
+	// }
+	// .count-down{
+	// 	width: 100%;
+	// }
 }
 </style>

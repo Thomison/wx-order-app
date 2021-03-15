@@ -22,7 +22,8 @@
 				<view class="right">
 					<view class="top">
 						<view class="title">
-							<text class="tag">{{goodsTypeMap[item.goodsType]}}</text>
+							<!-- <text class="tag">{{goodsTypeMap[item.goodsType]}}</text> -->
+							<text class="tag">{{item.storeName}}</text>
 							<text>{{item.couponName}}</text>
 						</view>
 						<view class="bottom">
@@ -47,11 +48,11 @@ export default {
 	data() {
 		return {
 			couponList:[],
-			goodsTypeMap:{
-				'0':'全商品',
-				'1':'类目限制',
-				'2':'商品限制'
-			},
+			// goodsTypeMap:{
+			// 	'0':'全商品',
+			// 	'1':'类目限制',
+			// 	'2':'商品限制'
+			// },
 		}
 	},
 	onShow() {

@@ -26,7 +26,8 @@
 				<view class="right">
 					<view class="top">
 						<view class="title">
-							<text class="tag">{{goodsTypeMap[item.goodsType]}}</text>
+							<!-- <text class="tag">{{goodsTypeMap[item.goodsType]}}</text> -->
+							<text class="tag">{{item.storeName}}</text>
 							<text>{{item.couponName}}</text>
 						</view>
 						<view class="bottom">
@@ -50,16 +51,10 @@
 		data() {
 			return {
 				myCouponList:[],
-				goodsTypeMap:{
-					'0':'全商品',
-					'1':'类目限制',
-					'2':'商品限制'
-				},
 			}
 		},
-		onShow() {
+		onLoad() {
 			this.getData();
-			this.myCouponList = this.myCouponList.filter(v => v.couponStatus===0);
 		},
 		methods:{
 			async getData() {
@@ -68,10 +63,13 @@
 					method: 'get'
 				});
 				console.log(res);
-				this.myCouponList = res.data;
-				this.myCouponList.forEach((item) => {
+				let myCouponList = res.data;
+				myCouponList.forEach((item) => {
 					item.startTime = item.startTime.substring(0,10);
 					item.endTime = item.endTime.substring(0,10);
+					if (item.couponStatus === 0) {
+						this.myCouponList.push(item);
+					}
 				});
 			},
 			

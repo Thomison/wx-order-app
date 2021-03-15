@@ -203,33 +203,31 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 var _default =
 {
   data: function data() {
     return {
-      myCouponList: [],
-      goodsTypeMap: {
-        '0': '全商品',
-        '1': '类目限制',
-        '2': '商品限制' } };
-
+      myCouponList: [] };
 
   },
-  onShow: function onShow() {
+  onLoad: function onLoad() {
     this.getData();
-    this.myCouponList = this.myCouponList.filter(function (v) {return v.couponStatus === 0;});
   },
   methods: {
-    getData: function getData() {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var res;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:_context.next = 2;return (
+    getData: function getData() {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var res, myCouponList;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:_context.next = 2;return (
                   _this.request({
                     url: _this.baseUrl + '/coupons/mine',
                     method: 'get' }));case 2:res = _context.sent;
 
                 console.log(res);
-                _this.myCouponList = res.data;
-                _this.myCouponList.forEach(function (item) {
+                myCouponList = res.data;
+                myCouponList.forEach(function (item) {
                   item.startTime = item.startTime.substring(0, 10);
                   item.endTime = item.endTime.substring(0, 10);
+                  if (item.couponStatus === 0) {
+                    _this.myCouponList.push(item);
+                  }
                 });case 6:case "end":return _context.stop();}}}, _callee);}))();
     },
 

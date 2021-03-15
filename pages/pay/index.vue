@@ -108,6 +108,7 @@
 					this.params.couponUserId = this.couponUserId;
 				}
 				this.params.discountAmount = this.discountAmount;
+				// 计算支付价格
 				this.params.payTotalAmount = this.orderAmountTotal - this.discountAmount;
 				this.params.orderItems = this.myGoods;
 				
@@ -123,18 +124,24 @@
 				uni.removeStorageSync('orderAmountTotal');
 				uni.removeStorageSync('couponUserId');
 				uni.removeStorageSync('couponDiscount');
-				if (res.code === 200) { // 支付成功 跳转到订单页面
+				if (res.code === 200) { // 支付成功 跳转到购物车页面
 					// 删除购物车已支付商品 保存到缓存
 					let newCart = this.myCart.filter(v => !v.checked);
 					uni.setStorageSync('myCart', newCart);
 					uni.showToast({
 						title:'支付成功',
 						icon:'success',
-						duration:1500
+						success() {
+							setTimeout(function(){
+								uni.switchTab({
+									url:'../cart/index'
+								})
+							}, 2000);
+						}
 					});
-					uni.navigateTo({
-						url:'../order/index'
-					});
+					// uni.switchTab({
+					// 	url:'../cart/index'
+					// });
 				} else { // 支付失败 回到购物车页面
 					uni.showToast({
 						title:res.message,
@@ -149,7 +156,7 @@
 			
 		},
 		// 初始化页面
-		onShow() {
+		onLoad() {
 			// 从缓存中获取购物车数据
 			this.myCart = uni.getStorageSync('myCart')||[];
 			// 过滤得到选中商品

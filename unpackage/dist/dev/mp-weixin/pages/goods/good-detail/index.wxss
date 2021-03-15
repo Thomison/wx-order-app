@@ -104,4 +104,10 @@
 .navigation .right .buy.data-v-1cd02242 {
   background-color: #ff7900;
 }
+.slot-content.data-v-1cd02242 {
+  text-align: center;
+  padding: 30rpx;
+  font-size: 30rpx;
+  font-weight: 400;
+}
 

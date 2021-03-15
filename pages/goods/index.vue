@@ -68,8 +68,8 @@
 				cateList:[],
 				subsectionList: [
 					{ name: '店铺A' }, 
-					{ name: '店铺B' }, 
-					{ name: '店铺C' }
+					{ name: '店铺B' } 
+					// { name: '店铺C' }
 				],
 				curNow: 0,
 				// tabbar: classifyData,

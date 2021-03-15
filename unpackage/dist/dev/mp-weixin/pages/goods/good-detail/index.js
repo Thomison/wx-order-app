@@ -95,11 +95,14 @@ __webpack_require__.r(__webpack_exports__);
 var components
 try {
   components = {
+    uModal: function() {
+      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-modal/u-modal */ "node-modules/uview-ui/components/u-modal/u-modal").then(__webpack_require__.bind(null, /*! uview-ui/components/u-modal/u-modal.vue */ 155))
+    },
+    uCountDown: function() {
+      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-count-down/u-count-down */ "node-modules/uview-ui/components/u-count-down/u-count-down").then(__webpack_require__.bind(null, /*! uview-ui/components/u-count-down/u-count-down.vue */ 184))
+    },
     uIcon: function() {
       return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-icon/u-icon */ "node-modules/uview-ui/components/u-icon/u-icon").then(__webpack_require__.bind(null, /*! uview-ui/components/u-icon/u-icon.vue */ 148))
-    },
-    uBadge: function() {
-      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-badge/u-badge */ "node-modules/uview-ui/components/u-badge/u-badge").then(__webpack_require__.bind(null, /*! uview-ui/components/u-badge/u-badge.vue */ 155))
     }
   }
 } catch (e) {
@@ -208,6 +211,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var _default =
 {
   data: function data() {
@@ -219,17 +232,46 @@ var _default =
         userOpenId: '',
         goodId: -1 },
 
-      recordId: -1 };
+      recordId: -1,
+      show: false,
+      content: "\n\t\t\t\t\t\u606D\u559C\u60A8\u88AB\u4F18\u60E0\u5238\u7838\u4E2D\u4E86<br>\n\t\t\t\t\t\u8BF7\u9009\u62E9\u662F\u5426\u9886\u53D6\n\t\t\t\t",
+
+
+
+      timestamp: 2,
+      time: '' };
 
   },
   methods: {
-    getData: function getData() {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var response;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:_context.next = 2;return (
+    confirmModal: function confirmModal() {
+      // 前往优惠券领取界面
+      uni.navigateTo({
+        url: '../../coupon/index' });
+
+    },
+    cancelModal: function cancelModal() {
+      this.show = false;
+    },
+    getData: function getData() {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var response, num;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:_context.next = 2;return (
                   _this.request({
                     url: _this.baseUrl + '/good/' + _this.id }));case 2:response = _context.sent;
 
                 // console.log(response);
-                _this.data = response.data;case 4:case "end":return _context.stop();}}}, _callee);}))();
-    },
+                _this.data = response.data;
+
+                // 店铺A随机发放优惠券
+                num = Math.ceil(Math.random() * 10); // 生成随1~10的随机整数
+                if (_this.data.storeId === 1 && num >= 5) {
+                  _this.show = true;
+
+                  // uni.setTimeout(function(){
+                  // 	this.show = false;
+                  // }, this.timestamp);
+                }
+                // setTimeout(function() {
+                // 	this.show = false
+                // }, this.timestamp);
+              case 6:case "end":return _context.stop();}}}, _callee);}))();},
 
     createRecord: function createRecord() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var response;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:
                 _this2.recordParam.userOpenId = uni.getStorageSync('openid');
@@ -299,12 +341,19 @@ var _default =
     this.getData();
     // 创建访问记录
     this.createRecord();
+
     console.log('onLoad');
   },
 
+  // onReady() {
+  // 	setTimeout(function() {
+  // 		this.show = false
+  // 	}, this.timestamp);
+  // },
+
   /**
-      * 页面显示
-      */
+   * 页面显示
+   */
   onShow: function onShow() {
     console.log('onShow');
   },
@@ -315,6 +364,8 @@ var _default =
   onUnload: function onUnload() {
     // 更新访问记录
     this.updateRecord();
+    // 消除定时器
+    // clearTimeout(this.time);
     console.log('onUnload');
   } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
