@@ -21,13 +21,15 @@
 						￥
 						<text class="num">{{item.discount}}</text>
 					</view>
-					<view class="type">满{{item.couponMin}}元可用</view>
+					<view v-if="item.goodId===0" class="type">满{{item.couponMin}}元可用</view>
 				</view>
 				<view class="right">
 					<view class="top">
 						<view class="title">
-							<!-- <text class="tag">{{goodsTypeMap[item.goodsType]}}</text> -->
-							<text class="tag">{{item.storeName}}</text>
+							<text v-if="item.storeId>0" class="tag">{{item.storeName}}</text>
+							<text v-else class="tag">全场通用</text>
+							
+							<text v-if="item.goodId>0" class="tag">{{item.goodName}}</text>
 							<text>{{item.couponName}}</text>
 						</view>
 						<view class="bottom">
@@ -58,15 +60,15 @@
 		},
 		methods:{
 			async getData() {
+				const openId = uni.getStorageSync('openid')||'';
 				const res = await this.request({
-					url: this.baseUrl + '/coupons/mine',
+					url: this.baseUrl + '/coupons/' + openId,
 					method: 'get'
 				});
 				console.log(res);
 				let myCouponList = res.data;
 				myCouponList.forEach((item) => {
-					item.startTime = item.startTime.substring(0,10);
-					item.endTime = item.endTime.substring(0,10);
+					// 只显示状态为未使用的优惠券
 					if (item.couponStatus === 0) {
 						this.myCouponList.push(item);
 					}
@@ -90,7 +92,7 @@
 	.jingdong {
 		margin-top: 40rpx;
 		width: 700rpx;
-		height: auto;
+		height: 200rpx;
 		background-color: #ffffff;
 		display: flex;
 		.left {

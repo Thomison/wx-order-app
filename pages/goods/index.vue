@@ -42,7 +42,7 @@
 									<view class="item-menu-info">
 										<view class="item-menu-name">{{item1.goodName}}</view>
 										<view class="item-menu-price">
-											<text class="text-red text-xl text-price">{{item1.goodNewPrice}}</text>
+											<text class="text-red text-xl text-price">{{item1.goodPrice}}</text>
 										</view>
 									</view>
 								</navigator>

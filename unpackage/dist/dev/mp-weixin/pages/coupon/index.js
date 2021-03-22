@@ -53,17 +53,16 @@
 //
 //
 //
+//
+//
+//
+//
 var _default =
 {
   data: function data() {
     return {
-      couponList: []
-      // goodsTypeMap:{
-      // 	'0':'全商品',
-      // 	'1':'类目限制',
-      // 	'2':'商品限制'
-      // },
-    };
+      couponList: [] };
+
   },
   onShow: function onShow() {
     this.getData();
@@ -75,7 +74,10 @@ var _default =
                     method: 'get' }));case 2:response = _context.sent;
 
                 // console.log(response);
-                _this.couponList = response.data;case 4:case "end":return _context.stop();}}}, _callee);}))();
+                _this.couponList = response.data;
+
+                // 领取界面仅展示满减优惠券
+                _this.couponList = _this.couponList.filter(function (v) {return v.goodId === 0;});case 5:case "end":return _context.stop();}}}, _callee);}))();
     },
 
     // 处理领取优惠券事件

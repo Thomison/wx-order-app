@@ -30,7 +30,7 @@
 .jingdong {
   margin-top: 40rpx;
   width: 700rpx;
-  height: auto;
+  height: 200rpx;
   background-color: #ffffff;
   display: -webkit-box;
   display: -webkit-flex;

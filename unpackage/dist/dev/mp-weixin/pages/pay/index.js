@@ -209,8 +209,8 @@ var _default =
       myGoods: [],
       // 定价总价格
       orderAmountTotal: 0,
-      // 优惠券id
-      couponUserId: 0,
+      // 使用的优惠券列表
+      coupons: [],
       // 优惠金额
       discountAmount: 0,
       // 支付总价格
@@ -220,42 +220,33 @@ var _default =
       // 请求参数
       params: {
         // openId:'',
-        // orderTotalAmount:0,
-        // couponUserId:0,
-        // discountAmount:0,
-        // payTotalAmount:0,
-        // orderItems:[]
+        // orderItems:[],
+        // coupons:[],
       } };
 
   },
   methods: {
-    // 处理点击优惠券的事件
 
     // 处理创建订单的事件
     handleCreateOrder: function handleCreateOrder() {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var res, newCart;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
                 // 构造请求参数
                 _this.params.openId = uni.getStorageSync('openid') || '';
-                _this.params.orderTotalAmount = _this.orderAmountTotal;
-                if (_this.couponUserId != 0) {
-                  _this.params.couponUserId = _this.couponUserId;
-                }
-                _this.params.discountAmount = _this.discountAmount;
-                // 计算支付价格
-                _this.params.payTotalAmount = _this.orderAmountTotal - _this.discountAmount;
                 _this.params.orderItems = _this.myGoods;
+                _this.params.coupons = _this.coupons;
 
                 // 向服务器发送创建订单的请求 获取订单编号以及订单状态
-                _context.next = 8;return _this.request({
+                _context.next = 5;return _this.request({
                   url: _this.baseUrl + '/order',
                   method: 'post',
-                  data: JSON.stringify(_this.params) });case 8:res = _context.sent;
+                  data: _this.params });case 5:res = _context.sent;
 
                 console.log(res);
 
                 // 删除缓存中关于订单和优惠券的数据
-                uni.removeStorageSync('orderAmountTotal');
-                uni.removeStorageSync('couponUserId');
-                uni.removeStorageSync('couponDiscount');
+                uni.removeStorageSync('total');
+                uni.removeStorageSync('discount');
+                uni.removeStorageSync('pay');
+                uni.removeStorageSync('coupons');
                 if (res.code === 200) {// 支付成功 跳转到购物车页面
                   // 删除购物车已支付商品 保存到缓存
                   newCart = _this.myCart.filter(function (v) {return !v.checked;});
@@ -283,8 +274,9 @@ var _default =
                   uni.navigateTo({
                     url: '../cart/index' });
 
-                }case 14:case "end":return _context.stop();}}}, _callee);}))();
+                }case 12:case "end":return _context.stop();}}}, _callee);}))();
     } },
+
 
 
   // 初始化页面
@@ -294,16 +286,23 @@ var _default =
     // 过滤得到选中商品
     this.myGoods = this.myCart.filter(function (v) {return v.checked;});
     // 计算订单总价格和总数量
+    this.orderAmountTotal = 0;
     this.myGoods.forEach(function (v) {
-      _this2.orderAmountTotal += v.num * v.goodNewPrice;
+      _this2.orderAmountTotal += v.num * v.goodPrice;
       _this2.totalNum += v.num;
-      v.goodPrice = v.goodNewPrice;
+      v.goodPrice = v.goodPrice;
       v.goodNum = v.num;
     });
+
+    console.log('onLoad');
+  },
+
+  onShow: function onShow() {
+    console.log('onShow');
     // 从缓存获取优惠券信息
-    this.couponUserId = uni.getStorageSync('couponUserId') || 0;
-    this.discountAmount = uni.getStorageSync('couponDiscount') || 0;
-    this.payAmountTotal = this.orderAmountTotal - this.discountAmount;
+    this.coupons = uni.getStorageSync('coupons') || [];
+    this.discountAmount = uni.getStorageSync('discount') || 0;
+    this.payAmountTotal = uni.getStorageSync('pay') || this.orderAmountTotal;
   } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 

@@ -96,13 +96,13 @@ var components
 try {
   components = {
     uModal: function() {
-      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-modal/u-modal */ "node-modules/uview-ui/components/u-modal/u-modal").then(__webpack_require__.bind(null, /*! uview-ui/components/u-modal/u-modal.vue */ 155))
+      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-modal/u-modal */ "node-modules/uview-ui/components/u-modal/u-modal").then(__webpack_require__.bind(null, /*! uview-ui/components/u-modal/u-modal.vue */ 148))
     },
     uCountDown: function() {
-      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-count-down/u-count-down */ "node-modules/uview-ui/components/u-count-down/u-count-down").then(__webpack_require__.bind(null, /*! uview-ui/components/u-count-down/u-count-down.vue */ 184))
+      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-count-down/u-count-down */ "node-modules/uview-ui/components/u-count-down/u-count-down").then(__webpack_require__.bind(null, /*! uview-ui/components/u-count-down/u-count-down.vue */ 155))
     },
     uIcon: function() {
-      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-icon/u-icon */ "node-modules/uview-ui/components/u-icon/u-icon").then(__webpack_require__.bind(null, /*! uview-ui/components/u-icon/u-icon.vue */ 148))
+      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-icon/u-icon */ "node-modules/uview-ui/components/u-icon/u-icon").then(__webpack_require__.bind(null, /*! uview-ui/components/u-icon/u-icon.vue */ 162))
     }
   }
 } catch (e) {
@@ -228,73 +228,76 @@ var _default =
       // 当前商品数据
       id: -1,
       data: {},
+      coupon: {},
       recordParam: {
         userOpenId: '',
         goodId: -1 },
 
       recordId: -1,
       show: false,
-      content: "\n\t\t\t\t\t\u606D\u559C\u60A8\u88AB\u4F18\u60E0\u5238\u7838\u4E2D\u4E86<br>\n\t\t\t\t\t\u8BF7\u9009\u62E9\u662F\u5426\u9886\u53D6\n\t\t\t\t",
-
-
-
-      timestamp: 2,
-      time: '' };
-
+      content: '恭喜您被优惠券砸中了',
+      timestamp: 0
+      // time:'',
+    };
   },
   methods: {
-    confirmModal: function confirmModal() {
-      // 前往优惠券领取界面
-      uni.navigateTo({
-        url: '../../coupon/index' });
-
-    },
-    cancelModal: function cancelModal() {
-      this.show = false;
-    },
-    getData: function getData() {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var response, num;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:_context.next = 2;return (
+    confirmModal: function confirmModal() {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var params, response;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
+                // 领取优惠券
+                params = {};
+                params.userOpenID = uni.getStorageSync('openid') || '';
+                params.couponId = _this.coupon.id;_context.next = 5;return (
                   _this.request({
-                    url: _this.baseUrl + '/good/' + _this.id }));case 2:response = _context.sent;
+                    url: _this.baseUrl + '/coupon/get',
+                    method: 'post',
+                    data: params }));case 5:response = _context.sent;
+
+                _this.show = false;case 7:case "end":return _context.stop();}}}, _callee);}))();
+    },
+
+    getData: function getData() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var response, response2, coupons, i;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:_context2.next = 2;return (
+                  _this2.request({
+                    url: _this2.baseUrl + '/good/' + _this2.id }));case 2:response = _context2.sent;_context2.next = 5;return (
+
+                  _this2.request({
+                    url: _this2.baseUrl + '/coupons',
+                    method: 'get' }));case 5:response2 = _context2.sent;
 
                 // console.log(response);
-                _this.data = response.data;
+                _this2.data = response.data;
+                coupons = response2.data;
+                i = 0;case 9:if (!(i < coupons.length)) {_context2.next = 18;break;}if (!(
+                coupons[i].goodId === _this2.data.goodId)) {_context2.next = 15;break;}
+                _this2.coupon = coupons[i];
+                // 开启优惠券弹窗
+                _this2.show = true;
+                _this2.timestamp = _this2.coupon.seconds;return _context2.abrupt("break", 18);case 15:i++;_context2.next = 9;break;case 18:case "end":return _context2.stop();}}}, _callee2);}))();
 
-                // 店铺A随机发放优惠券
-                num = Math.ceil(Math.random() * 10); // 生成随1~10的随机整数
-                if (_this.data.storeId === 1 && num >= 5) {
-                  _this.show = true;
 
-                  // uni.setTimeout(function(){
-                  // 	this.show = false;
-                  // }, this.timestamp);
-                }
-                // setTimeout(function() {
-                // 	this.show = false
-                // }, this.timestamp);
-              case 6:case "end":return _context.stop();}}}, _callee);}))();},
 
-    createRecord: function createRecord() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var response;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:
-                _this2.recordParam.userOpenId = uni.getStorageSync('openid');
-                _this2.recordParam.goodId = _this2.id;_context2.next = 4;return (
-                  _this2.request({
-                    url: _this2.baseUrl + '/record',
-                    method: 'post',
-                    data: JSON.stringify(_this2.recordParam) }));case 4:response = _context2.sent;
-
-                console.log(response);
-                _this2.recordId = response.data.id;case 7:case "end":return _context2.stop();}}}, _callee2);}))();
     },
 
-    updateRecord: function updateRecord() {var _this3 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3() {var response;return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:_context3.next = 2;return (
+    createRecord: function createRecord() {var _this3 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3() {var response;return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:
+                _this3.recordParam.userOpenId = uni.getStorageSync('openid');
+                _this3.recordParam.goodId = _this3.id;_context3.next = 4;return (
                   _this3.request({
-                    url: _this3.baseUrl + '/record/' + _this3.recordId,
-                    method: 'put' }));case 2:response = _context3.sent;
+                    url: _this3.baseUrl + '/record',
+                    method: 'post',
+                    data: JSON.stringify(_this3.recordParam) }));case 4:response = _context3.sent;
 
-                console.log(response);case 4:case "end":return _context3.stop();}}}, _callee3);}))();
+                console.log(response);
+                _this3.recordId = response.data.id;case 7:case "end":return _context3.stop();}}}, _callee3);}))();
+    },
+
+    updateRecord: function updateRecord() {var _this4 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee4() {var response;return _regenerator.default.wrap(function _callee4$(_context4) {while (1) {switch (_context4.prev = _context4.next) {case 0:_context4.next = 2;return (
+                  _this4.request({
+                    url: _this4.baseUrl + '/record/' + _this4.recordId,
+                    method: 'put' }));case 2:response = _context4.sent;
+
+                console.log(response);case 4:case "end":return _context4.stop();}}}, _callee4);}))();
     },
 
     // 处理 加入购物车 事件
-    handleAddCart: function handleAddCart() {var _this4 = this;
+    handleAddCart: function handleAddCart() {var _this5 = this;
       uni.showLoading({
         title: '正在加入购物车',
         mask: true });
@@ -302,7 +305,7 @@ var _default =
       // 从缓存获取购物车数组
       var myCart = uni.getStorageSync('myCart');
       // 设置当前商品在购物车中被选中且数量为1
-      var cartIndex = myCart.findIndex(function (v) {return v.goodId === _this4.data.goodId;});
+      var cartIndex = myCart.findIndex(function (v) {return v.goodId === _this5.data.goodId;});
       if (cartIndex === -1) {
         this.data.checked = true;
         this.data.num = 1;
@@ -341,19 +344,12 @@ var _default =
     this.getData();
     // 创建访问记录
     this.createRecord();
-
     console.log('onLoad');
   },
 
-  // onReady() {
-  // 	setTimeout(function() {
-  // 		this.show = false
-  // 	}, this.timestamp);
-  // },
-
   /**
-   * 页面显示
-   */
+      * 页面显示
+      */
   onShow: function onShow() {
     console.log('onShow');
   },

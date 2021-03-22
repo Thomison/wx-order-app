@@ -3,10 +3,12 @@
 	<!-- 优惠券领取界面 -->
 	
 	<view class="u-wrap">
+		
 		<!-- 暂无可领取的优惠券 -->
 		<view class="coupon_empty" v-if="couponList.length===0">
 			<u-empty text="暂无可领取的优惠券" mode="coupon" margin-top="100"></u-empty>
 		</view>
+		
 		<view class="coupon_no_empty" v-else>
 			<view class="jingdong"
 				v-for="(item, index) in couponList" 
@@ -17,17 +19,19 @@
 						￥
 						<text class="num">{{item.discount}}</text>
 					</view>
-					<view class="type">满{{item.couponMin}}元可用</view>
+					<view v-if="item.goodId===0" class="type">满{{item.couponMin}}元可用</view>
 				</view>
 				<view class="right">
 					<view class="top">
 						<view class="title">
-							<!-- <text class="tag">{{goodsTypeMap[item.goodsType]}}</text> -->
-							<text class="tag">{{item.storeName}}</text>
+							<text v-if="item.storeId>0" class="tag">{{item.storeName}}</text>
+							<text v-else class="tag">全场通用</text>
+							
+							<text v-if="item.goodId>0" class="tag">{{item.goodName}}</text>
 							<text>{{item.couponName}}</text>
 						</view>
 						<view class="bottom">
-							<view class="date u-line-1">领取后{{item.days}}天有效</view>
+							<view class="date u-line-1">领取后{{item.seconds}}秒有效</view>
 							<view class="immediate-use" @click.once="handleGetCoupon(item)">立即领取</view>
 						</view>
 					</view>
@@ -48,11 +52,6 @@ export default {
 	data() {
 		return {
 			couponList:[],
-			// goodsTypeMap:{
-			// 	'0':'全商品',
-			// 	'1':'类目限制',
-			// 	'2':'商品限制'
-			// },
 		}
 	},
 	onShow() {
@@ -66,6 +65,9 @@ export default {
 			});
 			// console.log(response);
 			this.couponList = response.data;
+			
+			// 领取界面仅展示满减优惠券
+			this.couponList = this.couponList.filter(v => v.goodId===0);
 		},
 		
 		// 处理领取优惠券事件
@@ -109,7 +111,7 @@ page {
 .jingdong {
 	margin-top: 40rpx;
 	width: 700rpx;
-	height: auto;
+	height: 200rpx;
 	background-color: #ffffff;
 	display: flex;
 	.left {

@@ -270,7 +270,7 @@ var _default =
       // 刷新购物车总计商品价格和数量
       myCart.forEach(function (v) {
         if (v.checked) {
-          totalPrice += v.num * v.goodNewPrice;
+          totalPrice += v.num * v.goodPrice;
           totalNum += v.num;
         } else {
           allChecked = false;
@@ -316,7 +316,7 @@ var _default =
         }
       }
       // 将订单金额存入缓存
-      uni.setStorageSync('orderAmountTotal', this.totalPrice);
+      uni.setStorageSync('total', this.totalPrice);
       // 跳转到支付页面
       uni.navigateTo({
         url: '/pages/pay/index' });

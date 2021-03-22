@@ -1,12 +1,12 @@
 <template>
 	<view class="container">
 		
-		<u-modal v-model="show" @confirm="confirmModal" @cancel="cancelModal" show-confirm-button show-cancel-button>
+		<u-modal v-model="show" @confirm="confirmModal" show-confirm-button>
 			<view class="slot-content">
 				<rich-text :nodes="content"></rich-text>
-				<!-- <view class="count-down">
-					剩余时间：<u-count-down :timestamp="timestamp" color="red"></u-count-down>
-				</view> -->
+				<view class="count-down">
+					限定在<u-count-down :timestamp="timestamp" color="red"></u-count-down>时间内使用
+				</view>
 			</view>
 		</u-modal>
 		
@@ -20,7 +20,7 @@
 					{{data.goodName}}
 				</view>
 				<view class="text-red text-xxl text-price">
-					{{data.goodNewPrice}}
+					{{data.goodPrice}}
 				</view>
 			</view>
 		</view>
@@ -67,49 +67,52 @@ export default {
 			// 当前商品数据
 			id:-1,
 			data:{},
+			coupon:{},
 			recordParam: {
 				userOpenId:'',
 				goodId:-1,
 			},
 			recordId:-1,
 			show:false,
-			content:`
-					恭喜您被优惠券砸中了<br>
-					请选择是否领取
-				`,
-			timestamp:2,
-			time:'',
+			content:'恭喜您被优惠券砸中了',
+			timestamp:0,
+			// time:'',
 		}
 	},
 	methods:{
-		confirmModal() {
-			// 前往优惠券领取界面
-			uni.navigateTo({
-				url:'../../coupon/index'
+		async confirmModal() {
+			// 领取优惠券
+			let params = {};
+			params.userOpenID = uni.getStorageSync('openid')||'';
+			params.couponId = this.coupon.id;
+			const response = await this.request({
+				url:this.baseUrl+'/coupon/get',
+				method: 'post',
+				data: params
 			});
-		},
-		cancelModal() {
 			this.show = false;
 		},
+		
 		async getData() {
 			const response = await this.request({
 				url:this.baseUrl+'/good/'+this.id
 			});
+			const response2 = await this.request({
+				url: this.baseUrl + '/coupons',
+				method: 'get'
+			});
 			// console.log(response);
 			this.data = response.data;
-			
-			// 店铺A随机发放优惠券
-			let num = Math.ceil(Math.random()*10); // 生成随1~10的随机整数
-			if (this.data.storeId === 1 && num >= 5) {
-				this.show = true;
-				
-				// uni.setTimeout(function(){
-				// 	this.show = false;
-				// }, this.timestamp);
+			let coupons = response2.data;
+			for (let i=0; i<coupons.length; i++) {
+				if (coupons[i].goodId === this.data.goodId) {
+					this.coupon = coupons[i];
+					// 开启优惠券弹窗
+					this.show = true;
+					this.timestamp = this.coupon.seconds;
+					break;
+				}
 			}
-			// setTimeout(function() {
-			// 	this.show = false
-			// }, this.timestamp);
 		},
 		
 		async createRecord() {
@@ -180,15 +183,8 @@ export default {
 		this.getData();
 		// 创建访问记录
 		this.createRecord();
-
 		console.log('onLoad');
 	},
-	
-	// onReady() {
-	// 	setTimeout(function() {
-	// 		this.show = false
-	// 	}, this.timestamp);
-	// },
 	
 	/**
 	 * 页面显示

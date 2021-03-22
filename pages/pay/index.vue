@@ -19,7 +19,7 @@
 				<view class="good_price_num">
 					<!-- 商品价格 -->
 					<view class="good_price">
-						<text class=" text-red text-price">{{item.goodNewPrice}}</text>
+						<text class=" text-red text-price">{{item.goodPrice}}</text>
 					</view>
 					<!-- 商品数量 -->
 					<view class="good_num">
@@ -40,7 +40,7 @@
 			<!-- 优惠金额 -->
 			<view class="discount_amount cu-item">
 				<view class="content text-grey" style="text-align: right;">
-					优惠金额:<text class="text-price text-red">-{{discountAmount}}</text>
+					优惠金额:<text class="text-price text-red">{{discountAmount}}</text>
 				</view>
 			</view>
 			<!-- 优惠券 -->
@@ -77,8 +77,8 @@
 				myGoods:[],
 				// 定价总价格
 				orderAmountTotal:0,
-				// 优惠券id
-				couponUserId:0,
+				// 使用的优惠券列表
+				coupons:[],
 				// 优惠金额
 				discountAmount:0,
 				// 支付总价格
@@ -88,42 +88,33 @@
 				// 请求参数
 				params:{
 					// openId:'',
-					// orderTotalAmount:0,
-					// couponUserId:0,
-					// discountAmount:0,
-					// payTotalAmount:0,
-					// orderItems:[]
+					// orderItems:[],
+					// coupons:[],
 				}
 			}
 		},
 		methods:{
-			// 处理点击优惠券的事件
 			
 			// 处理创建订单的事件
 			async handleCreateOrder(){
 				// 构造请求参数
 				this.params.openId = uni.getStorageSync('openid')||'';
-				this.params.orderTotalAmount = this.orderAmountTotal;
-				if (this.couponUserId != 0) {
-					this.params.couponUserId = this.couponUserId;
-				}
-				this.params.discountAmount = this.discountAmount;
-				// 计算支付价格
-				this.params.payTotalAmount = this.orderAmountTotal - this.discountAmount;
 				this.params.orderItems = this.myGoods;
+				this.params.coupons = this.coupons;
 				
 				// 向服务器发送创建订单的请求 获取订单编号以及订单状态
 				const res = await this.request({
 					url: this.baseUrl + '/order',
 					method: 'post',
-					data: JSON.stringify(this.params)
+					data: this.params
 				});
 				console.log(res);
 				
 				// 删除缓存中关于订单和优惠券的数据
-				uni.removeStorageSync('orderAmountTotal');
-				uni.removeStorageSync('couponUserId');
-				uni.removeStorageSync('couponDiscount');
+				uni.removeStorageSync('total');
+				uni.removeStorageSync('discount');
+				uni.removeStorageSync('pay');
+				uni.removeStorageSync('coupons');
 				if (res.code === 200) { // 支付成功 跳转到购物车页面
 					// 删除购物车已支付商品 保存到缓存
 					let newCart = this.myCart.filter(v => !v.checked);
@@ -155,6 +146,7 @@
 			},
 			
 		},
+		
 		// 初始化页面
 		onLoad() {
 			// 从缓存中获取购物车数据
@@ -162,16 +154,23 @@
 			// 过滤得到选中商品
 			this.myGoods = this.myCart.filter(v => v.checked);
 			// 计算订单总价格和总数量
+			this.orderAmountTotal = 0;
 			this.myGoods.forEach(v => {
-				this.orderAmountTotal += v.num * v.goodNewPrice;
+				this.orderAmountTotal += v.num * v.goodPrice;
 				this.totalNum += v.num;
-				v.goodPrice = v.goodNewPrice;
+				v.goodPrice = v.goodPrice;
 				v.goodNum = v.num;
 			})
+			
+			console.log('onLoad');
+		},
+		
+		onShow() {
+			console.log('onShow');
 			// 从缓存获取优惠券信息
-			this.couponUserId = uni.getStorageSync('couponUserId')||0;
-			this.discountAmount = uni.getStorageSync('couponDiscount')||0;
-			this.payAmountTotal = this.orderAmountTotal - this.discountAmount;
+			this.coupons = uni.getStorageSync('coupons')||[];
+			this.discountAmount = uni.getStorageSync('discount')||0;
+			this.payAmountTotal = uni.getStorageSync('pay')||this.orderAmountTotal;
 		}
 	}
 </script>

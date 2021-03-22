@@ -15,7 +15,7 @@
 				<view class="cart_checkbox_wrap">
 					<checkbox-group :data-id="item.goodId" @change="handleItemChange">
 						<checkbox :checked="item.checked"></checkbox>
-				</checkbox-group>
+					</checkbox-group>
 				</view>
 				<!-- 商品图片 -->
 				<navigator class="cart_image_wrap" :url="'/pages/goods/good-detail/index?id='+item.goodId">
@@ -24,10 +24,10 @@
 				<!-- 商品信息 -->
 				<view class="cart_info_wrap">
 					<!-- 商品名称 -->
-					<view class="goods_name">{{item.goodName}}</view>
+					<view class="goods_name">{{item.goodName}}——{{item.storeName}}</view>
 					<view class="goods_price_wrap">
 						<!-- 商品价格 -->
-						<view class="goods_price text-red text-xl text-price">{{item.goodNewPrice}}</view>
+						<view class="goods_price text-red text-xl text-price">{{item.goodPrice}}</view>
 						<!-- 商品数量编辑 -->
 						<view class="cart_num_edit">
 							<view class="num_edit" @click="setItemNum" :data-id="item.goodId" :data-operation="-1">-</view>
@@ -115,7 +115,7 @@
 				// 刷新购物车总计商品价格和数量
 				myCart.forEach(v => {
 				  if (v.checked) {
-					totalPrice += v.num * v.goodNewPrice;
+					totalPrice += v.num * v.goodPrice;
 					totalNum += v.num;
 				  } else {
 					allChecked = false;
@@ -161,7 +161,7 @@
 					}
 				}
 				// 将订单金额存入缓存
-				uni.setStorageSync('orderAmountTotal', this.totalPrice);
+				uni.setStorageSync('total', this.totalPrice);
 			    // 跳转到支付页面
 			    uni.navigateTo({
 			      url: '/pages/pay/index'

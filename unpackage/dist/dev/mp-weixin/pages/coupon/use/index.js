@@ -99,7 +99,7 @@ try {
       return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-empty/u-empty */ "node-modules/uview-ui/components/u-empty/u-empty").then(__webpack_require__.bind(null, /*! uview-ui/components/u-empty/u-empty.vue */ 141))
     },
     uButton: function() {
-      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-button/u-button */ "node-modules/uview-ui/components/u-button/u-button").then(__webpack_require__.bind(null, /*! uview-ui/components/u-button/u-button.vue */ 162))
+      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-button/u-button */ "node-modules/uview-ui/components/u-button/u-button").then(__webpack_require__.bind(null, /*! uview-ui/components/u-button/u-button.vue */ 169))
     }
   }
 } catch (e) {
@@ -204,37 +204,90 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 var _default =
 {
   data: function data() {
     return {
-      myCouponList: []
-      // goodsTypeMap:{
-      // 	'0':'全商品',
-      // 	'1':'类目限制',
-      // 	'2':'商品限制'
-      // },
-    };
+      myCouponList: [],
+      selectedCoupons: [] };
+
   },
+
+  // 加载页面
+  onLoad: function onLoad() {
+    this.getData();
+  },
+
   onShow: function onShow() {
     this.getData();
-    // 过滤只剩下 订单金额超过最低消费金额 并且 未使用的 的优惠券
-    var orderAmountTotal = uni.getStorageSync('orderAmountTotal') || 0;
-    this.myCouponList = this.myCouponList.filter(function (v) {return v.couponMin <= orderAmountTotal;});
-    this.myCouponList = this.myCouponList.filter(function (v) {return v.couponStatus === 0;});
   },
+
+  // 卸载页面
+  onUnload: function onUnload() {
+    this.selectedCoupons = this.myCouponList.filter(function (v) {return v.checked;});
+
+    // 订单金额
+    var total = uni.getStorageSync('total');
+    // 优惠金额
+    var discount = 0;
+    var myCart = uni.getStorageSync('myCart') || [];
+    myCart = myCart.filter(function (v) {return v.checked;});
+    var goodIdList = myCart.map(function (v) {return v.goodId;});
+    for (var i = 0; i < this.selectedCoupons.length; i++) {
+      var coupon = this.selectedCoupons[i];
+      if (coupon.storeId != myCart[0].storeId) continue;
+      if (coupon.goodId === 0) {// 满减优惠券
+        if (coupon.couponMin <= total) {
+          discount += coupon.discount;
+        }
+      } else {// 指定商品优惠券
+        var index = myCart.lastIndexOf(coupon.goodId);
+        if (coupon.goodId != -1) {
+          discount += coupon.discount;
+        }
+      }
+    }
+    // 支付金额
+    var pay = total - discount;
+
+    uni.setStorageSync('total', total);
+    uni.setStorageSync('discount', discount);
+    uni.setStorageSync('pay', pay);
+    uni.setStorageSync('coupons', this.selectedCoupons);
+  },
+
   methods: {
-    getData: function getData() {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var res;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:_context.next = 2;return (
+
+    // 发送请求 获取用户拥有的优惠券数据
+    getData: function getData() {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var openId, res;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
+                openId = uni.getStorageSync('openid') || '';_context.next = 3;return (
                   _this.request({
-                    url: _this.baseUrl + '/coupons/mine',
-                    method: 'get' }));case 2:res = _context.sent;
+                    url: _this.baseUrl + '/coupons/' + openId,
+                    method: 'get' }));case 3:res = _context.sent;
 
                 console.log(res);
                 _this.myCouponList = res.data;
-                _this.myCouponList.forEach(function (item) {
-                  item.startTime = item.startTime.substring(0, 10);
-                  item.endTime = item.endTime.substring(0, 10);
-                });case 6:case "end":return _context.stop();}}}, _callee);}))();
+                // 仅展示来自店铺A的未使用优惠券
+                _this.myCouponList = _this.myCouponList.filter(function (v) {return v.couponStatus === 0;});
+                uni.setStorageSync('coupons', _this.myCouponList);case 8:case "end":return _context.stop();}}}, _callee);}))();
+    },
+
+    // 处理用户选中优惠券
+    handleCouponSelect: function handleCouponSelect(e) {
+      console.log(e);
+      // 获取用户优惠券id
+      var couponUserId = e.currentTarget.dataset.id;
+      var index = this.myCouponList.findIndex(function (v) {return v.id === couponUserId;});
+      // 选中状态取反
+      this.myCouponList[index].checked = !this.myCouponList[index].checked;
     },
 
     // 处理 使用优惠券 事件

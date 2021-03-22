@@ -99,7 +99,7 @@ try {
       return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-empty/u-empty */ "node-modules/uview-ui/components/u-empty/u-empty").then(__webpack_require__.bind(null, /*! uview-ui/components/u-empty/u-empty.vue */ 141))
     },
     uButton: function() {
-      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-button/u-button */ "node-modules/uview-ui/components/u-button/u-button").then(__webpack_require__.bind(null, /*! uview-ui/components/u-button/u-button.vue */ 162))
+      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-button/u-button */ "node-modules/uview-ui/components/u-button/u-button").then(__webpack_require__.bind(null, /*! uview-ui/components/u-button/u-button.vue */ 169))
     }
   }
 } catch (e) {
@@ -204,6 +204,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 var _default =
 {
   data: function data() {
@@ -215,20 +217,20 @@ var _default =
     this.getData();
   },
   methods: {
-    getData: function getData() {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var res, myCouponList;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:_context.next = 2;return (
+    getData: function getData() {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var openId, res, myCouponList;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
+                openId = uni.getStorageSync('openid') || '';_context.next = 3;return (
                   _this.request({
-                    url: _this.baseUrl + '/coupons/mine',
-                    method: 'get' }));case 2:res = _context.sent;
+                    url: _this.baseUrl + '/coupons/' + openId,
+                    method: 'get' }));case 3:res = _context.sent;
 
                 console.log(res);
                 myCouponList = res.data;
                 myCouponList.forEach(function (item) {
-                  item.startTime = item.startTime.substring(0, 10);
-                  item.endTime = item.endTime.substring(0, 10);
+                  // 只显示状态为未使用的优惠券
                   if (item.couponStatus === 0) {
                     _this.myCouponList.push(item);
                   }
-                });case 6:case "end":return _context.stop();}}}, _callee);}))();
+                });case 7:case "end":return _context.stop();}}}, _callee);}))();
     },
 
     // 处理 跳转到领取优惠券页面 事件
