@@ -254,23 +254,32 @@ var _default =
                 _this.show = false;case 7:case "end":return _context.stop();}}}, _callee);}))();
     },
 
-    getData: function getData() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var response, response2, coupons, i;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:_context2.next = 2;return (
+    getData: function getData() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var response, response2, openId, response3, recordList, coupons, i;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:_context2.next = 2;return (
+
                   _this2.request({
                     url: _this2.baseUrl + '/good/' + _this2.id }));case 2:response = _context2.sent;_context2.next = 5;return (
+
 
                   _this2.request({
                     url: _this2.baseUrl + '/coupons',
                     method: 'get' }));case 5:response2 = _context2.sent;
 
+                openId = uni.getStorageSync('openid') || '';_context2.next = 9;return (
+                  _this2.request({
+                    url: _this2.baseUrl + '/records/' + openId + '/' + _this2.id,
+                    method: 'get' }));case 9:response3 = _context2.sent;
+
+                recordList = response3.data;
                 // console.log(response);
                 _this2.data = response.data;
                 coupons = response2.data;
-                i = 0;case 9:if (!(i < coupons.length)) {_context2.next = 18;break;}if (!(
-                coupons[i].goodId === _this2.data.goodId)) {_context2.next = 15;break;}
+                i = 0;case 14:if (!(i < coupons.length)) {_context2.next = 23;break;}if (!(
+
+                coupons[i].goodId === _this2.data.goodId && recordList.length === 1)) {_context2.next = 20;break;}
                 _this2.coupon = coupons[i];
                 // 开启优惠券弹窗
                 _this2.show = true;
-                _this2.timestamp = _this2.coupon.seconds;return _context2.abrupt("break", 18);case 15:i++;_context2.next = 9;break;case 18:case "end":return _context2.stop();}}}, _callee2);}))();
+                _this2.timestamp = _this2.coupon.seconds;return _context2.abrupt("break", 23);case 20:i++;_context2.next = 14;break;case 23:case "end":return _context2.stop();}}}, _callee2);}))();
 
 
 

@@ -1,6 +1,10 @@
 <template>
 	<view>
 		<view class="container">
+			<!-- 暂无可领取的优惠券 -->
+			<view class="order_empty" v-if="orderList.length===0">
+				<u-empty text="暂无订单" mode="order" margin-top="100"></u-empty>
+			</view>
 			<view class="orders_main">
 				<view class="order_item"
 					v-for="(item, index) in orderList"

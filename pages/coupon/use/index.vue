@@ -58,6 +58,8 @@
 	export default {
 		data() {
 			return {
+				myGoods:[],
+				myGoodsId:[],
 				myCouponList:[],
 				selectedCoupons:[],
 			}
@@ -65,6 +67,11 @@
 		
 		// 加载页面
 		onLoad() {
+			// 从缓存中获取购物车数据
+			let myCart = uni.getStorageSync('myCart')||[];
+			// 过滤得到选中商品
+			this.myGoods = myCart.filter(v => v.checked);
+			this.myGoodsId = this.myGoods.map(v => v.goodId);
 			this.getData();
 		},
 		
@@ -80,22 +87,9 @@
 			let total = uni.getStorageSync('total');
 			// 优惠金额
 			let discount = 0;
-			let myCart = uni.getStorageSync('myCart')||[];
-			myCart = myCart.filter(v => v.checked);
-			let goodIdList = myCart.map(v => v.goodId);
+
 			for (let i=0; i<this.selectedCoupons.length; i++) {
-				let coupon = this.selectedCoupons[i];
-				if (coupon.storeId != myCart[0].storeId) continue;
-				if (coupon.goodId === 0) { // 满减优惠券
-					if (coupon.couponMin <= total) {
-						discount += coupon.discount;
-					}
-				} else { // 指定商品优惠券
-					let index = myCart.lastIndexOf(coupon.goodId);
-					if (coupon.goodId != -1) {
-						discount += coupon.discount;
-					}
-				}
+				discount += this.selectedCoupons[i].discount;
 			}
 			// 支付金额
 			let pay = total - discount;
@@ -116,9 +110,20 @@
 					method: 'get'
 				});
 				console.log(res);
-				this.myCouponList = res.data;
-				// 仅展示来自店铺A的未使用优惠券
-				this.myCouponList = this.myCouponList.filter(v => (v.couponStatus===0));
+				let myCouponList = res.data;
+				this.myCouponList = [];
+				// 仅列出可使用的满减优惠券和限时优惠券
+				myCouponList = myCouponList.filter(v => (v.couponStatus===0));
+				// 订单金额
+				let total = uni.getStorageSync('total');
+				for (let i=0; i<myCouponList.length; i++) {
+					if (myCouponList[i].storeId === this.myGoods[0].storeId) {
+						if ((myCouponList[i].couponMin <= total && myCouponList[i].goodId === 0)
+							|| (this.myGoodsId.lastIndexOf(myCouponList[i].goodId) != -1 && myCouponList[i].goodId != 0)) {
+							this.myCouponList.push(myCouponList[i]); 
+						}
+					}
+				}
 				uni.setStorageSync('coupons', this.myCouponList);
 			},
 			

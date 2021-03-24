@@ -216,6 +216,8 @@ var _default =
 {
   data: function data() {
     return {
+      myGoods: [],
+      myGoodsId: [],
       myCouponList: [],
       selectedCoupons: [] };
 
@@ -223,6 +225,11 @@ var _default =
 
   // 加载页面
   onLoad: function onLoad() {
+    // 从缓存中获取购物车数据
+    var myCart = uni.getStorageSync('myCart') || [];
+    // 过滤得到选中商品
+    this.myGoods = myCart.filter(function (v) {return v.checked;});
+    this.myGoodsId = this.myGoods.map(function (v) {return v.goodId;});
     this.getData();
   },
 
@@ -238,22 +245,9 @@ var _default =
     var total = uni.getStorageSync('total');
     // 优惠金额
     var discount = 0;
-    var myCart = uni.getStorageSync('myCart') || [];
-    myCart = myCart.filter(function (v) {return v.checked;});
-    var goodIdList = myCart.map(function (v) {return v.goodId;});
+
     for (var i = 0; i < this.selectedCoupons.length; i++) {
-      var coupon = this.selectedCoupons[i];
-      if (coupon.storeId != myCart[0].storeId) continue;
-      if (coupon.goodId === 0) {// 满减优惠券
-        if (coupon.couponMin <= total) {
-          discount += coupon.discount;
-        }
-      } else {// 指定商品优惠券
-        var index = myCart.lastIndexOf(coupon.goodId);
-        if (coupon.goodId != -1) {
-          discount += coupon.discount;
-        }
-      }
+      discount += this.selectedCoupons[i].discount;
     }
     // 支付金额
     var pay = total - discount;
@@ -267,17 +261,28 @@ var _default =
   methods: {
 
     // 发送请求 获取用户拥有的优惠券数据
-    getData: function getData() {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var openId, res;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
+    getData: function getData() {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var openId, res, myCouponList, total, i;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
                 openId = uni.getStorageSync('openid') || '';_context.next = 3;return (
                   _this.request({
                     url: _this.baseUrl + '/coupons/' + openId,
                     method: 'get' }));case 3:res = _context.sent;
 
                 console.log(res);
-                _this.myCouponList = res.data;
-                // 仅展示来自店铺A的未使用优惠券
-                _this.myCouponList = _this.myCouponList.filter(function (v) {return v.couponStatus === 0;});
-                uni.setStorageSync('coupons', _this.myCouponList);case 8:case "end":return _context.stop();}}}, _callee);}))();
+                myCouponList = res.data;
+                _this.myCouponList = [];
+                // 仅列出可使用的满减优惠券和限时优惠券
+                myCouponList = myCouponList.filter(function (v) {return v.couponStatus === 0;});
+                // 订单金额
+                total = uni.getStorageSync('total');
+                for (i = 0; i < myCouponList.length; i++) {
+                  if (myCouponList[i].storeId === _this.myGoods[0].storeId) {
+                    if (myCouponList[i].couponMin <= total && myCouponList[i].goodId === 0 ||
+                    _this.myGoodsId.lastIndexOf(myCouponList[i].goodId) != -1 && myCouponList[i].goodId != 0) {
+                      _this.myCouponList.push(myCouponList[i]);
+                    }
+                  }
+                }
+                uni.setStorageSync('coupons', _this.myCouponList);case 11:case "end":return _context.stop();}}}, _callee);}))();
     },
 
     // 处理用户选中优惠券

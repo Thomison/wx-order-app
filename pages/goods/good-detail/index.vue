@@ -94,18 +94,27 @@ export default {
 		},
 		
 		async getData() {
+			// 获取商品详细信息
 			const response = await this.request({
 				url:this.baseUrl+'/good/'+this.id
 			});
+			// 获取优惠券信息
 			const response2 = await this.request({
 				url: this.baseUrl + '/coupons',
 				method: 'get'
 			});
+			const openId = uni.getStorageSync('openid')||'';
+			const response3 = await this.request({
+				url: this.baseUrl + '/records/' + openId + '/' + this.id,
+				method: 'get'
+			});
+			let recordList = response3.data;
 			// console.log(response);
 			this.data = response.data;
 			let coupons = response2.data;
 			for (let i=0; i<coupons.length; i++) {
-				if (coupons[i].goodId === this.data.goodId) {
+				// 目标商品为限时优惠券商品，并且首次访问商品
+				if (coupons[i].goodId === this.data.goodId && recordList.length === 1) {
 					this.coupon = coupons[i];
 					// 开启优惠券弹窗
 					this.show = true;
