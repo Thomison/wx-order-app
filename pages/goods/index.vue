@@ -40,10 +40,12 @@
 									:url="'/pages/goods/good-detail/index?id=' + item1.goodId">
 									<image class="item-menu-image" :src="item1.goodImageUrl" mode="aspectFit"></image>
 									<view class="item-menu-info">
+										<!-- 商品名称 -->
 										<view class="item-menu-name">{{item1.goodName}}</view>
-										<view class="item-menu-price">
+										<!-- 商品价格 -->
+										<!-- <view class="item-menu-price">
 											<text class="text-red text-xl text-price">{{item1.goodPrice}}</text>
-										</view>
+										</view> -->
 									</view>
 								</navigator>
 								<!-- 分割符 -->
